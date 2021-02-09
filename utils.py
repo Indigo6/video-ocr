@@ -1,5 +1,9 @@
 import base64
+import copy
+
 import requests
+
+from pysubs2 import SSAFile
 
 
 # 用于对输出任务进度中的时间进行格式化
@@ -13,6 +17,44 @@ def fmt_time(dtime):
     else:
         return '%d:%02d:%02d.%03d' % (int(dtime / 3600), int((dtime % 3600) / 60), int(dtime) % 60,
                                       int(dtime * 1000) % 1000)
+
+
+def is_contain_chinese(check_str):
+    """
+    判断字符串中是否包含中文
+    :param check_str: {str} 需要检测的字符串
+    :return: {bool} 包含返回True， 不包含返回False
+    """
+    for ch in check_str:
+        if u'\u4e00' <= ch <= u'\u9fff':
+            return True
+    return False
+
+
+def simplify_ass(ass_path):
+    # subs = SSAFile.load('S03E09.ass', encoding="utf-16-le")
+    subs = SSAFile.load(ass_path)
+
+    last_txt = None
+    last_index = 0
+
+    i = 0
+    length = len(subs)
+    while i < length:
+        line = subs[i]
+        if not is_contain_chinese(line.text):
+            subs.__delitem__(i)
+            length -= 1
+        elif line.text == last_txt:
+            subs[last_index].end = line.end
+            subs.__delitem__(i)
+            length -= 1
+        else:
+            last_index = i
+            last_txt = line.text
+            i += 1
+    subs.save(ass_path)
+
 
 
 def get_access_token(key_file_path):

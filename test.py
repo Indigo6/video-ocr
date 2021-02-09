@@ -29,9 +29,9 @@ def test_ocr():
         paddleocr_noRec: 0:00.093
         paddleocr: 0:00.096
     """
-    img_path = 'f44.jpg'
+    img_path = 'test1.jpg'
 
-    for i in range(3):
+    for i in range(2,3):
         if i is 0:
             from paddleocr import PaddleOCR
             # Paddleocr 目前支持中英文、英文、法语、德语、韩语、日语，可以通过修改lang参数进行切换
@@ -63,9 +63,10 @@ def test_ocr():
         else:
             import easyocr
             reader = easyocr.Reader(['ch_tra', 'en'])  # need to run only once to load model into memory
+            img = cv.imread(img_path)
             start = time.time()
             for i in range(100):
-                result = reader.readtext(img_path)
+                result = reader.readtext(img)
             print('EasyOCR cost time: ', fmt_time((time.time()-start)/100))
             for line in result:
                 print(line)
