@@ -46,7 +46,7 @@ def ocr_with_timeline():
         if (count % 100) == 0:
             elapsed = time.time() - start
             eta = (total - count) / count * elapsed
-            print("Line {}, Elapsed: {}, ETA: {}".format(count, fmt_time(elapsed), fmt_time(eta)))
+            print("[{}/{}], Elapsed: {}, ETA: {}".format(count, total, fmt_time(elapsed), fmt_time(eta)))
             subs.save(ass_path)
 
 
