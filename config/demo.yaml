@@ -1,0 +1,10 @@
+LANG:
+  - "ch_tra"
+  - "en"
+VIDEO: "input/abp994_ch.mp4"
+SUB: "input/abp994_ch.ass"
+BOX:
+  - 480
+  - None
+  - 200
+  - 836

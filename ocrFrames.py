@@ -2,7 +2,7 @@ import sys
 import time
 
 import cv2 as cv
-from utils import fmt_time, ocr_baidu, get_access_token
+from lib.utils import ocr_baidu, get_access_token
 
 
 def ocr_paddle(img):

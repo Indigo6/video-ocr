@@ -56,7 +56,6 @@ def simplify_ass(ass_path):
     subs.save(ass_path)
 
 
-
 def get_access_token(key_file_path):
     access_token = None
     with open(key_file_path, mode='r') as f:

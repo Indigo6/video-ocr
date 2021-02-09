@@ -2,7 +2,7 @@ import time
 import cv2 as cv
 import numpy as np
 
-from utils import fmt_time
+from lib.utils import fmt_time
 
 
 def test_hsv():

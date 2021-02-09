@@ -16,7 +16,10 @@ from yacs.config import CfgNode as CN
 
 _C = CN()
 
-_C.
+_C.LANG = ["ch_tra", "en"]
+_C.VIDEO = "input/demo.mp4"
+_C.SUB = "input/demo.ass"
+_C.BOX = [480, None, 200, 836]
 _C.LOSS = CN()
 _C.LOSS.USE_OHKM = False
 _C.LOSS.PLUS_M = False
@@ -28,30 +31,9 @@ _C.LOSS.USE_DIFFERENT_JOINTS_WEIGHT = False
 def update_config(cfg, args):
     cfg.defrost()
     cfg.merge_from_file(args.cfg)
-    cfg.merge_from_list(args.opts)
-
-    if args.modelDir:
-        cfg.OUTPUT_DIR = args.modelDir
-
-    if args.logDir:
-        cfg.LOG_DIR = args.logDir
-
-    if args.dataDir:
-        cfg.DATA_DIR = args.dataDir
-
-    cfg.DATASET.ROOT = os.path.join(
-        cfg.DATA_DIR, cfg.DATASET.ROOT
-    )
-
-    cfg.MODEL.PRETRAINED = os.path.join(
-        cfg.DATA_DIR, cfg.MODEL.PRETRAINED
-    )
-
-    if cfg.TEST.MODEL_FILE:
-        cfg.TEST.MODEL_FILE = os.path.join(
-            cfg.DATA_DIR, cfg.TEST.MODEL_FILE
-        )
-
+    for i, border in enumerate(cfg.BOX):
+        if border == "None":
+            cfg.BOX[i] = None
     cfg.freeze()
 
 

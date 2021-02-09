@@ -1,10 +1,13 @@
+import argparse
 import sys
 import time
 import easyocr
 
 import cv2 as cv
+
 from pysubs2 import SSAFile
-from utils import fmt_time, ocr_baidu, get_access_token, simplify_ass
+from lib.utils import fmt_time, simplify_ass
+from lib.config import cfg, update_config
 
 
 def ocr_with_timeline():
@@ -43,27 +46,39 @@ def ocr_with_timeline():
         if (count % 100) == 0:
             elapsed = time.time() - start
             eta = (total - count) / count * elapsed
-            print("Line {}, Elapsed: {}, ETA: {}".format(i + 1, fmt_time(elapsed), fmt_time(eta)))
+            print("Line {}, Elapsed: {}, ETA: {}".format(count, fmt_time(elapsed), fmt_time(eta)))
             subs.save(ass_path)
 
 
-if __name__ == "__main__":
-    reader = easyocr.Reader(['ch_tra', 'en'])
+def parse_args():
+    parser = argparse.ArgumentParser(description='Train keypoints network')
+    # general
+    parser.add_argument('--cfg',
+                        help='experiment configure file name',
+                        required=True,
+                        type=str,
+                        default='')
+    args = parser.parse_args()
+    return args
 
-    video_name = "ABP-488"
-    video_path = "input/"+video_name+".mp4"
-    ass_path = "input/"+video_name+".ass"
+
+if __name__ == "__main__":
+    args = parse_args()
+    update_config(cfg, args)
+
+    reader = easyocr.Reader(cfg.LANG)
+
+    video_path = cfg.VIDEO
+    ass_path = cfg.SUB
+    box = [cfg.BOX[:2], cfg.BOX[2:]]
 
     video = cv.VideoCapture(video_path)
-    frames_num = video.get(7)
     fps = video.get(5)  # 设置要获取的帧号
     ret, test_frame = video.read()
     if not ret:
         print("Open Video Error!")
         sys.exit()
-    else:
-        frame_shape = test_frame.shape
-        box = [[480, None], [200, 836]]
+    frame_shape = test_frame.shape
 
     ocr_with_timeline()
     simplify_ass(ass_path)
