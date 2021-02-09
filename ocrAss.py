@@ -1,7 +1,6 @@
 import argparse
 import sys
 import time
-import easyocr
 
 import cv2 as cv
 
@@ -33,7 +32,11 @@ def ocr_with_timeline():
         resized_frame = cv.resize(frame, (int(640 / frame_shape[0] * frame_shape[1]), 640))
         clipped_frame = resized_frame[box[0][0]:box[0][1], box[1][0]:box[1][1]]
 
-        result = reader.readtext(clipped_frame)
+        if cfg.VIS:
+            cv.imshow("ocr_img", clipped_frame)
+            cv.waitKey(7000)
+
+        result = reader.ocr(clipped_frame)
 
         if len(result) == 0:
             subs.__delitem__(i)
@@ -43,11 +46,11 @@ def ocr_with_timeline():
             i += 1
 
         count += 1
-        if (count % 100) == 0:
+        if (count % 100) == 0 or count == total:
             elapsed = time.time() - start
             eta = (total - count) / count * elapsed
             print("[{}/{}], Elapsed: {}, ETA: {}".format(count, total, fmt_time(elapsed), fmt_time(eta)))
-            subs.save(ass_path)
+            subs.save(cfg.OUT)
 
 
 def parse_args():
@@ -62,11 +65,28 @@ def parse_args():
     return args
 
 
+class Reader:
+    def __init__(self, cfg):
+        self.cfg = cfg
+        self.method = cfg.METHOD
+        if cfg.METHOD == "easy":
+            import easyocr
+            self.model = easyocr.Reader(cfg.LANG)
+        elif cfg.METHOD == "paddle":
+            from paddleocr import PaddleOCR
+            self.model = PaddleOCR(use_angle_cls=True, lang="ch")
+
+    def ocr(self, img):
+        if cfg.METHOD == "easy":
+            result = self.model.readtext(img)
+        elif cfg.METHOD == "paddle":
+            result = self.model.ocr(img)
+        return result
+
+
 if __name__ == "__main__":
     args = parse_args()
     update_config(cfg, args)
-
-    reader = easyocr.Reader(cfg.LANG)
 
     video_path = cfg.VIDEO
     ass_path = cfg.SUB
@@ -80,5 +100,7 @@ if __name__ == "__main__":
         sys.exit()
     frame_shape = test_frame.shape
 
+    reader = Reader(cfg)
+
     ocr_with_timeline()
-    simplify_ass(ass_path)
+    simplify_ass(cfg)

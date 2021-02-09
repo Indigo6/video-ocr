@@ -1,10 +1,12 @@
+METHOD: "paddle
 LANG:
-  - "ch_tra"
+  - "ch_sim"
   - "en"
-VIDEO: "input/abw006_ch.mp4"
-SUB: "input/abw006_ch.ass"
+VIDEO: "demo/demo.mp4"
+SUB: "demo/demo.ass"
 BOX:
   - 480
   - None
   - 200
   - 836
+VIS: false

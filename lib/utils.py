@@ -31,9 +31,9 @@ def is_contain_chinese(check_str):
     return False
 
 
-def simplify_ass(ass_path):
+def simplify_ass(cfg):
     # subs = SSAFile.load('S03E09.ass', encoding="utf-16-le")
-    subs = SSAFile.load(ass_path)
+    subs = SSAFile.load(cfg.OUT)
 
     last_txt = None
     last_index = 0
@@ -53,7 +53,7 @@ def simplify_ass(ass_path):
             last_index = i
             last_txt = line.text
             i += 1
-    subs.save(ass_path)
+    subs.save(cfg.OUT)
 
 
 def get_access_token(key_file_path):

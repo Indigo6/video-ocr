@@ -16,16 +16,13 @@ from yacs.config import CfgNode as CN
 
 _C = CN()
 
+_C.METHOD = "easy"
 _C.LANG = ["ch_tra", "en"]
 _C.VIDEO = "input/demo.mp4"
 _C.SUB = "input/demo.ass"
+_C.OUT = "output/demo.srt"
 _C.BOX = [480, None, 200, 836]
-_C.LOSS = CN()
-_C.LOSS.USE_OHKM = False
-_C.LOSS.PLUS_M = False
-_C.LOSS.TOPK = 8
-_C.LOSS.USE_TARGET_WEIGHT = True
-_C.LOSS.USE_DIFFERENT_JOINTS_WEIGHT = False
+_C.VIS = False
 
 
 def update_config(cfg, args):
@@ -34,6 +31,9 @@ def update_config(cfg, args):
     for i, border in enumerate(cfg.BOX):
         if border == "None":
             cfg.BOX[i] = None
+    _, path = _C.VIDEO.split('/')
+    name, _ = path.split('.')
+    _C.OUT = "output/" + name + ".ass"
     cfg.freeze()
 
 
