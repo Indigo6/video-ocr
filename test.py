@@ -23,30 +23,52 @@ def test_hsv():
 
 
 def test_ocr():
-    from paddleocr import PaddleOCR
-    import easyocr
-    reader = easyocr.Reader(['ch_tra', 'en'], gpu=False)  # need to run only once to load model into memory
-    # Paddleocr 目前支持中英文、英文、法语、德语、韩语、日语，可以通过修改lang参数进行切换
-    # 参数依次为`ch`, `en`, `french`, `german`, `korean`, `japan`。
-    # need to run only once to download and load model into memory
-    ocr = PaddleOCR(lang="ch")
-    # ocr = PaddleOCR(lang="ch",
-    #                 det_model_dir=r'C:\Users\Indigo6\.paddleocr\2.0\ch_ppocr_server_v2.0_det_infer',
-    #                 rec_model_dir=r'C:\Users\Indigo6\.paddleocr\2.0\ch_ppocr_server_v2.0_rec_infer')
-    # img_path = 'test1.jpg'
+    """
+    100 iter mean:
+        easyocr: 0:00.030
+        paddleocr_noRec: 0:00.093
+        paddleocr: 0:00.096
+    """
     img_path = 'f44.jpg'
-    start = time.time()
-    # result = ocr.ocr(img_path, rec=False)
-    result = ocr.ocr(img_path)
-    print('paddle cost time: ', fmt_time(time.time()-start))
-    for line in result:
-        print(line)
 
-    start = time.time()
-    result = reader.readtext(img_path)
-    print('EasyOCR cost time: ', fmt_time(time.time()-start))
-    for line in result:
-        print(line)
+    for i in range(3):
+        if i is 0:
+            from paddleocr import PaddleOCR
+            # Paddleocr 目前支持中英文、英文、法语、德语、韩语、日语，可以通过修改lang参数进行切换
+            # 参数依次为`ch`, `en`, `french`, `german`, `korean`, `japan`。
+            # need to run only once to download and load model into memory
+            ocr = PaddleOCR(lang="ch")
+            # ocr = PaddleOCR(lang="ch",
+            #                 det_model_dir=r'C:\Users\Indigo6\.paddleocr\2.0\ch_ppocr_server_v2.0_det_infer',
+            #                 rec_model_dir=r'C:\Users\Indigo6\.paddleocr\2.0\ch_ppocr_server_v2.0_rec_infer')
+            # img_path = 'test1.jpg'
+            start = time.time()
+            for i in range(100):
+                result = ocr.ocr(img_path)
+            print('paddle cost time: ', fmt_time((time.time()-start)/100))
+        elif i is 1:
+            from paddleocr import PaddleOCR
+            # Paddleocr 目前支持中英文、英文、法语、德语、韩语、日语，可以通过修改lang参数进行切换
+            # 参数依次为`ch`, `en`, `french`, `german`, `korean`, `japan`。
+            # need to run only once to download and load model into memory
+            ocr = PaddleOCR(lang="ch")
+            # ocr = PaddleOCR(lang="ch",
+            #                 det_model_dir=r'C:\Users\Indigo6\.paddleocr\2.0\ch_ppocr_server_v2.0_det_infer',
+            #                 rec_model_dir=r'C:\Users\Indigo6\.paddleocr\2.0\ch_ppocr_server_v2.0_rec_infer')
+            # img_path = 'test1.jpg'
+            start = time.time()
+            for i in range(100):
+                result = ocr.ocr(img_path, rec=False)
+            print('paddle_noRec cost time: ', fmt_time((time.time()-start)/100))
+        else:
+            import easyocr
+            reader = easyocr.Reader(['ch_tra', 'en'])  # need to run only once to load model into memory
+            start = time.time()
+            for i in range(100):
+                result = reader.readtext(img_path)
+            print('EasyOCR cost time: ', fmt_time((time.time()-start)/100))
+            for line in result:
+                print(line)
 
 
 def test_gray():
