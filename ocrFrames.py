@@ -1,18 +1,8 @@
-import copy
-import shutil
 import sys
 import time
-import os
-import requests
 
 import cv2 as cv
-import numpy as np
-
-from PIL import Image
 from utils import fmt_time, ocr_baidu, get_access_token
-
-
-
 
 
 def ocr_paddle(img):
