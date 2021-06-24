@@ -1,8 +1,7 @@
-pillow
-python-docx
-pymupdf
-opencv-python
-requests
-numpy
-paddleocr
 easyocr
+numpy
+opencv-python
+paddleocr
+pillow
+pysubs2
+requests

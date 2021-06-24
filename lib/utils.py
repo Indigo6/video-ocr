@@ -1,9 +1,47 @@
+import argparse
 import base64
-import copy
-
 import requests
+import sys
 
 from pysubs2 import SSAFile
+
+
+class OcrReader:
+    def __init__(self, cfg):
+        self.cfg = cfg
+        self.method = cfg.OCR_METHOD
+        if cfg.OCR_METHOD == "easy":
+            import easyocr
+            self.model = easyocr.Reader(cfg.LANG)
+        elif cfg.OCR_METHOD == "paddle":
+            from paddleocr import PaddleOCR
+            self.model = PaddleOCR(use_angle_cls=True, lang="ch")
+        elif cfg.OCR_METHOD == "online":
+            # 百度 API 的 API key 和 Secret key
+            self.access_token = get_access_token('../../baidu_keys.txt')
+            if self.access_token is None:
+                print("Get token error!")
+                sys.exit()
+
+    def ocr(self, img):
+        if self.cfg.METHOD == "easy":
+            result = self.model.readtext(img)
+        elif self.cfg.METHOD == "paddle":
+            result = self.model.ocr(img)
+        elif self.cfg.METHOD == "online":
+            ocr_baidu(img, self.access_token)
+        return result
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Train keypoints network')
+    # general
+    parser.add_argument('--cfg',
+                        default='config/demo.yaml',
+                        help='experiment configure file name',
+                        type=str)
+    args = parser.parse_args()
+    return args
 
 
 # 用于对输出任务进度中的时间进行格式化

@@ -1,12 +1,24 @@
-METHOD: "paddle
+OCR_METHOD: "paddle"
 LANG:
   - "ch_sim"
   - "en"
 VIDEO: "demo/demo.mp4"
-SUB: "demo/demo.ass"
 BOX:
-  - 480
+  - 540
   - None
-  - 200
-  - 836
+  - 100
+  - 1000
 VIS: false
+OUT: "output/demo.srt"
+
+SPLIT:
+  METHOD: "vision"
+  VISION:
+    COLOR: "white"
+    SRT_THRES: 1.0
+    CHANGE_THRES: 5.0
+    OUTPUT_SEG: False
+  AUDIO:
+    ASS_PATH: 'demo/demo.ass'
+    MIN: 0.0
+    MAX: 0.0

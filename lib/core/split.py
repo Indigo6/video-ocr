@@ -29,7 +29,7 @@ def color_seg(img, color, srt_prob_thres=1):
         # dst_loose = cv.bitwise_and(img, img, mask=mask)
         # dst_loose = cv.bitwise_or(dst_blue, dst_loose)
     elif color == "white":
-        thresh = 220
+        thresh = 150
         lower_rgb = np.array([thresh, thresh, thresh])
         upper_rgb = np.array([255, 255, 255])
         mask = cv.inRange(img, lowerb=lower_rgb, upperb=upper_rgb)
@@ -100,7 +100,7 @@ def hash_compare(img1, img2):
     return camp_hash(hash1, hash2)
 
 
-def if_srt_changed(last_img, now_img):
+def if_srt_changed(last_img, now_img, change_prob_thres):
     srt_changed = False
     srt_change_prob = hash_compare(last_img, now_img)
     if srt_change_prob > change_prob_thres:
@@ -111,9 +111,12 @@ def if_srt_changed(last_img, now_img):
     return srt_changed
 
 
-def get_frames(video_path, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
-
+def split_vision(cfg, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
+    output_segged_frame = cfg.SPLIT.VISION.OUTPUT_SEG
+    video_path = cfg.VIDEO
     _, video_name = os.path.split(video_path)
+    video_name = video_name.split('.')[0]
+
     frame_dir = 'frame/'+video_name+'/'
     if os.path.exists(frame_dir):
         shutil.rmtree(frame_dir)
@@ -121,7 +124,6 @@ def get_frames(video_path, srt_color, box, srt_prob_thres=1, change_prob_thres=1
 
     video = cv.VideoCapture(video_path)
     frames_num = video.get(7)
-    fps = video.get(5)
 
     fc = 0
     srt_count = 0
@@ -136,18 +138,18 @@ def get_frames(video_path, srt_color, box, srt_prob_thres=1, change_prob_thres=1
             break
         frame_shape = frame.shape
         resized_frame = cv.resize(frame, (int(640/frame_shape[0]*frame_shape[1]), 640))
-        clipped_frame = resized_frame[box[0][0]:box[0][1], box[1][0]:box[1][1]]
+        clipped_frame = resized_frame[box[0]:box[1], box[2]:box[3]]
         fc += 1
 
         frame_segged, has_srt = if_srt_frame(clipped_frame, srt_color, srt_prob_thres)
-        if fc > (fps * vis_start):
-            if debug:
-                cv.imshow('resized', resized_frame)
-                cv.waitKey(0)
-                cv.imshow('clipped', clipped_frame)
-                cv.waitKey(0)
-                cv.imshow('segged', frame_segged)
-                cv.waitKey(0)
+        # if fc > (fps * vis_start):
+        #     if debug:
+        #         cv.imshow('resized', resized_frame)
+        #         cv.waitKey(0)
+        #         cv.imshow('clipped', clipped_frame)
+        #         cv.waitKey(0)
+        #         cv.imshow('segged', frame_segged)
+        #         cv.waitKey(0)
         if has_srt:
             if not in_srt:
                 in_srt = True
@@ -155,7 +157,7 @@ def get_frames(video_path, srt_color, box, srt_prob_thres=1, change_prob_thres=1
                 last_srt_frame = copy.deepcopy(clipped_frame)
                 last_srt_seg_frame = copy.deepcopy(frame_segged)
             else:
-                if if_srt_changed(last_srt_seg_frame, frame_segged):
+                if if_srt_changed(last_srt_seg_frame, frame_segged, change_prob_thres):
                     srt_count += 1
                     cv.imwrite("{}/f{}_l{}.jpg".format(frame_dir, fc_start, fc-fc_start),
                                last_srt_frame)
@@ -181,25 +183,3 @@ def get_frames(video_path, srt_color, box, srt_prob_thres=1, change_prob_thres=1
                                                 fmt_time(elapsed),
                                                 fmt_time(eta)))
     video.release()
-
-
-if __name__ == '__main__':  
-    # test_format()
-    # 视频所在文件夹路径
-    video_path = "input/ABP-488_clip.mp4"
-
-    debug = False
-    output_segged_frame = True
-
-    vis_start = 18
-    clip_box = [[480, None], [200, 836]]
-
-    srt_color = "white"
-    srt_prob_thres = 1
-    change_prob_thres = 5
-
-    if video_path.endswith(('.mp4', '.mkv', '.avi', '.rmvb')):
-        get_frames(video_path, srt_color, clip_box, 
-                   srt_prob_thres, change_prob_thres)
-    else:
-        raise ValueError("Not a video file:{}".format(video_path))

@@ -16,13 +16,26 @@ from yacs.config import CfgNode as CN
 
 _C = CN()
 
-_C.METHOD = "easy"
+_C.OCR_METHOD = "easy"
 _C.LANG = ["ch_tra", "en"]
 _C.VIDEO = "input/demo.mp4"
-_C.SUB = "input/demo.ass"
 _C.OUT = "output/demo.srt"
 _C.BOX = [480, None, 200, 836]
 _C.VIS = False
+
+_C.SPLIT = CN()
+_C.SPLIT.METHOD = "vision"
+
+_C.SPLIT.VISION = CN()
+_C.SPLIT.VISION.COLOR = 'white'
+_C.SPLIT.VISION.SRT_THRES = 1.0
+_C.SPLIT.VISION.CHANGE_THRES = 5.0
+_C.SPLIT.VISION.OUTPUT_SEG = False
+
+_C.SPLIT.AUDIO = CN()
+_C.SPLIT.AUDIO.MIN = 1.0
+_C.SPLIT.AUDIO.MAX = 1.0
+_C.SPLIT.AUDIO.ASS_PATH = 'demo/demo.ass'
 
 
 def update_config(cfg, args):
