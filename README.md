@@ -14,7 +14,7 @@
 
 ## 用法
 
-打开 config/demo.yaml， 修改以下参数以适配自己的扫描版 pdf
+打开 config/demo.yaml， 修改以下参数以适配自己的视频
 
 ```python
 OCR_METHOD: "paddle"
