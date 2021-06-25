@@ -1,3 +1,4 @@
+baidu-aip
 easyocr
 numpy
 opencv-python
@@ -5,3 +6,4 @@ paddleocr
 pillow
 pysubs2
 requests
+yacs
