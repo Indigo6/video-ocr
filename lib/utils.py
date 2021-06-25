@@ -1,5 +1,6 @@
 import argparse
 import base64
+import re
 import requests
 import sys
 import time
@@ -48,7 +49,7 @@ class OcrReader:
         return content
 
 
-def ocr_with_timeline(video, box, ocr_reader, ass_path):
+def ocr_with_timeline(video, box, ocr_reader, ass_path, lang='ch_sim'):
     box = [box[:2], box[2:]]
     fps = video.get(5)
     subs = SSAFile.load(ass_path)
@@ -56,6 +57,8 @@ def ocr_with_timeline(video, box, ocr_reader, ass_path):
     total = len(subs)
     start = time.time()
     count = 0
+    re_chinese = re.compile(u"[\u4e00-\u9fa5]+")
+    re_ascii = re.compile(r'\w+', re.ASCII)
 
     i = 0
     length = len(subs)
@@ -72,16 +75,35 @@ def ocr_with_timeline(video, box, ocr_reader, ass_path):
         clipped_frame = frame[box[0][0]:box[0][1], box[1][0]:box[1][1]]
 
         result = ocr_reader.ocr(clipped_frame)
-
+        print(result)
         if len(result) == 0:
             subs.__delitem__(i)
             length -= 1
         else:
-            subs[i].text = result[0]
-            # TODO: 双语字幕
-            i += 1
+            # subs[i].text = result[0]
+            if len(lang) == 2:
+                split = list(map(lambda x: len(x), [re.findall(re_chinese,result[i]) for i in range(len(result))]))
+                eng_str = []
+                ch_str = []
+                iseng = 1
+                for str_ind in reversed(range(len(result))):
+                    iseng += split[str_ind]
+                    if iseng == 1:
+                        eng_str.append(result[str_ind])
+                    else:
+                        ch_str.append(result[str_ind])
+                eng_str = ' '.join(reversed(eng_str))
+                ch_str = ''.join(reversed(ch_str))
+                subs[i].text = re.findall(re_chinese, ch_str)[0]
+                subs[i+1].text = ' '.join(re.findall(re_ascii, eng_str))
+            else:
+                subtitle = ''.join(result)
+                subs[i].text = re.findall(re_chinese, subtitle)[0]
 
-        count += 1
+            # TODO: 双语字幕
+            i += len(lang)
+
+        count += len(lang)
         if (count % 1) == 0 or count == total:
             elapsed = time.time() - start
             eta = (total - count) / count * elapsed
@@ -209,7 +231,6 @@ def ocr_baidu_aip(image, client):
 def cv_to_qt(img):
     """
     将用 opencv 读入的图像转换成qt可以读取的图像
-
     ========== =====================
     序号       支持类型
     ========== =================
@@ -237,9 +258,9 @@ def cv_to_qt(img):
     return image
 
 
-def get_image_view(imgView, image):
-    width = imgView.width()
-    height = imgView.height()
+def get_image_view(img_view, image):
+    width = img_view.width()
+    height = img_view.height()
     row, col = image.shape[1], image.shape[0]
     a = float((width - 10) / row)
     b = float((height - 5) / col)

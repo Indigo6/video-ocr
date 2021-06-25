@@ -119,6 +119,7 @@ def split_vision(cfg, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
     output_segged_frame = cfg.SPLIT.VISION.OUT_SEG
     output_frame = cfg.SPLIT.VISION.OUT_IMG
     video_path = cfg.VIDEO
+    lang = cfg.LANG
     _, video_name = os.path.split(video_path)
     video_name = video_name.split('.')[0]
 
@@ -162,6 +163,11 @@ def split_vision(cfg, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
                                          end=fc / fps * 1000,
                                          text="to be filled"))
 
+                    if len(lang) == 2:
+                        subs.append(SSAEvent(start=fc_start / fps * 1000,
+                                             end=fc / fps * 1000,
+                                             text="to be filled"))
+
                     if output_frame:
                         cv.imwrite("{}/f{}_l{}.jpg".format(frame_dir, fc_start, fc-fc_start),
                                    last_srt_frame)
@@ -178,6 +184,10 @@ def split_vision(cfg, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
                 subs.append(SSAEvent(start=fc_start / fps * 1000,
                                      end=fc / fps * 1000,
                                      text="to be filled"))
+                if len(lang) == 2:
+                    subs.append(SSAEvent(start=fc_start / fps * 1000,
+                                         end=fc / fps * 1000,
+                                         text="to be filled"))
 
                 if output_frame:
                     cv.imwrite("{}/f{}_l{}.jpg".format(frame_dir, fc_start, fc-fc_start), last_srt_frame)

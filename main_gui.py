@@ -1,3 +1,4 @@
+import os
 import sys
 
 import cv2 as cv
@@ -8,6 +9,7 @@ from PyQt5.QtWidgets import (QApplication, QFileDialog, QGraphicsScene,
 from gui import *
 from lib.core.split import split_vision
 from lib.utils import get_image_view, ocr_with_timeline
+os.environ['QT_MAC_WANTS_LAYER'] = '1'
 
 
 class MyWindow(QMainWindow, Ui_VideoOCR):
@@ -81,6 +83,8 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
 
     def gen_sub(self):
         ocr_with_timeline(self.video)
+
+
 
 
 if __name__ == '__main__':
