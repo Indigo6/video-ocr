@@ -30,18 +30,6 @@ def write_srt(txt, fc_start, fc_end, srt_count, content, fps):
     print("{}\n".format(content))
 
 
-def ocr_and_write(cfg, ocr_reader, fps):
-    video_path = cfg.VIDEO
-    _, video_name = os.path.split(video_path)
-    video_name = video_name.split('.')[0]
-    frame_dir = 'frame/' + video_name + '/'
-
-    # TODO: 读取 frame 文件夹下提取的所有图片进行识别，
-    #  并根据文件名标示的时间轴写入字幕文件
-    #  use write_srt()
-    print("To be done.")
-
-
 def video_ocr_vision(cfg):
     srt_color = cfg.SPLIT.VISION.COLOR
     clip_box = cfg.BOX
