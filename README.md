@@ -14,7 +14,7 @@
 
 ## 用法
 
-打开 config/demo.yaml， 修改以下参数以适配自己的扫描版 pdf
+打开 config/demo.yaml， 修改以下参数以适配自己的视频
 
 ```python
 OCR_METHOD: "paddle"
@@ -43,4 +43,7 @@ SPLIT:
     MAX: 0.0
 ```
 
-
+## TODO
+- [ ] 通过音频生成时间轴
+- [ ] 改变视频时间轴方式，改为生成时间轴，而不是保存图片，这样和音频可以共用ocr环节
+- [ ] 百度 API 更新
