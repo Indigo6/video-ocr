@@ -7,6 +7,8 @@ import time
 import cv2 as cv
 
 from pysubs2 import SSAFile
+from PyQt5 import QtGui
+from qimage2ndarray import array2qimage
 
 
 class OcrReader:
@@ -212,3 +214,34 @@ def ocr_baidu_aip(image, client):
     """ 带参数调用通用文字识别, 图片参数为本地图片 """
     result = client.basicGeneral(image, options)
     return result
+
+
+def cv_to_qt(img):
+    """
+    将用 opencv 读入的图像转换成qt可以读取的图像
+
+    ========== =====================
+    序号       支持类型
+    ========== =================
+             1 灰度图 Gray
+             2 三通道的图 BGR顺序
+             3 四通道的图 BGRA顺序
+    ========= ===================
+    """
+    if len(img.shape) == 2:
+        # 读入灰度图的时候
+        image = array2qimage(img)
+    elif len(img.shape) == 3:
+        # 读入RGB或RGBA的时候
+        if img.shape[2] == 3:
+            # 转换为RGB排列
+            rgb_img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+            # rgb_img.shape[1]*rgb_img.shape[2]这一句时用来解决扭曲的问题
+            # 详情参考 https://blog.csdn.net/owen7500/article/details/50905659 这篇博客
+            image = QtGui.QImage(rgb_img, rgb_img.shape[1], rgb_img.shape[0],
+                                 rgb_img.shape[1] * rgb_img.shape[2], QtGui.QImage.Format_RGB888)
+        elif img.shape[2] == 4:
+            # 读入为RGBA的时候
+            rgba_img = cv.cvtColor(img, cv.COLOR_BGRA2RGBA)
+            image = array2qimage(rgba_img)
+    return image
