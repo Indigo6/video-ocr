@@ -53,7 +53,6 @@ def ocr_with_timeline(cfg, ocr_reader, ass_path):
     if not ret:
         print("Open Video Error!")
         sys.exit()
-    frame_shape = test_frame.shape
 
     # subs = SSAFile.load('S03E09.ass', encoding="utf-16-le")
     subs = SSAFile.load(ass_path)
@@ -74,8 +73,7 @@ def ocr_with_timeline(cfg, ocr_reader, ass_path):
 
         video.set(cv.CAP_PROP_POS_FRAMES, frame_id)  # 设置要获取的帧号
         _, frame = video.read()
-        resized_frame = cv.resize(frame, (int(640 / frame_shape[0] * frame_shape[1]), 640))
-        clipped_frame = resized_frame[box[0][0]:box[0][1], box[1][0]:box[1][1]]
+        clipped_frame = frame[box[0][0]:box[0][1], box[1][0]:box[1][1]]
 
         if cfg.VIS:
             cv.imshow("ocr_img", clipped_frame)
@@ -100,7 +98,7 @@ def ocr_with_timeline(cfg, ocr_reader, ass_path):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Train keypoints network')
+    parser = argparse.ArgumentParser(description='Video OCR')
     # general
     parser.add_argument('--cfg',
                         default='config/demo.yaml',
@@ -163,7 +161,7 @@ def simplify_ass(cfg):
 def get_access_token(key_file_path):
     access_token = None
     with open(key_file_path, mode='r') as f:
-        app_id = f.readline().strip()
+        _ = f.readline().strip()
         client_id = f.readline().strip()
         client_secret = f.readline().strip()
         # client_id 为官网获取的AK， client_secret 为官网获取的SK
@@ -214,4 +212,3 @@ def ocr_baidu_aip(image, client):
     """ 带参数调用通用文字识别, 图片参数为本地图片 """
     result = client.basicGeneral(image, options)
     return result
-

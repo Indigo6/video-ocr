@@ -144,9 +144,7 @@ def split_vision(cfg, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
         ret, frame = video.read()
         if not ret:
             break
-        frame_shape = frame.shape
-        resized_frame = cv.resize(frame, (int(640/frame_shape[0]*frame_shape[1]), 640))
-        clipped_frame = resized_frame[box[0]:box[1], box[2]:box[3]]
+        clipped_frame = frame[box[0]:box[1], box[2]:box[3]]
         fc += 1
 
         frame_segged, has_srt = if_srt_frame(clipped_frame, srt_color, srt_prob_thres)
