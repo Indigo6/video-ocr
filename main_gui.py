@@ -2,13 +2,12 @@ import sys
 
 import cv2 as cv
 
-from PyQt5.Qt import QPixmap
 from PyQt5.QtWidgets import (QApplication, QFileDialog, QGraphicsScene,
                              QMainWindow)
 
 from gui import *
 from lib.core.split import split_vision
-from lib.utils import cv_to_qt
+from lib.utils import get_image_view
 
 
 class MyWindow(QMainWindow, Ui_MainWindow):
@@ -20,14 +19,15 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         # 注册监听
         # 打开文件的项
         self.openFile.triggered.connect(self.open_file)
-        self.videoBar.actionTriggered(0).connect(self.video_bar())
+        self.videoBar.sliderMoved.connect(self.video_bar)
 
         # 生成时间轴的项
-        self.testButton.triggered.connect(self.test_seg)
+        # self.testButton.triggered.connect(self.test_seg)
 
         # 初始化实例变量
         self.video_path = None
         self.video = None
+        self.video_total_frame = 0
         self.frame_idx = 0
         self.hasOpen = False
 
@@ -47,26 +47,11 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         if not ret:
             raise ValueError("An empty video:{}".format(video_name))
 
+        self.video_total_frame = self.video.get(7)
+
         # 缩放图像为适应窗口的大小
         # 获得缩放比例
-        width = self.videoView.width()
-        height = self.videoView.height()
-        row, col = frame.shape[1], frame.shape[0]
-        a = float((width - 10) / row)
-        b = float((height - 5) / col)
-        if a < b:
-            scale = a
-        else:
-            scale = b
-        dim = (int(row * scale), int(col * scale))
-        # 缩放图像
-        resized_frame = cv.resize(frame, dim)
-        # 将OpenCV格式储存的图片转换为QT可处理的图片类型
-        show_img = cv_to_qt(resized_frame)
-
-        # 将图片放入图片显示窗口
-        scene = QGraphicsScene()
-        scene.addPixmap(QPixmap.fromImage(show_img))
+        scene = get_image_view(self.videoView, frame)
         self.videoView.setScene(scene)
         self.hasOpen = True
 
@@ -74,7 +59,19 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         print(self.video_path, "todo")
 
     def video_bar(self):
-        print(self.video_path, "todo")
+        """
+            通过 slider 所处位置确定
+        """
+        bar_min = self.videoBar.minimum()
+        bar_max = self.videoBar.maximum()
+        bar_pos = self.videoBar.value()
+        bar_ratio = (bar_pos - bar_min) / (bar_max - bar_min)
+        self.frame_idx = int(self.video_total_frame * bar_ratio)
+        self.video.set(cv.CAP_PROP_POS_FRAMES, self.frame_idx)  # 设置要获取的帧号
+        _, frame = self.video.read()
+        scene = get_image_view(self.videoView, frame)
+        self.videoView.setScene(scene)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

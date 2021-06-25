@@ -8,6 +8,8 @@ import cv2 as cv
 
 from pysubs2 import SSAFile
 from PyQt5 import QtGui
+from PyQt5.Qt import QPixmap
+from PyQt5.QtWidgets import QGraphicsScene
 from qimage2ndarray import array2qimage
 
 
@@ -245,3 +247,25 @@ def cv_to_qt(img):
             rgba_img = cv.cvtColor(img, cv.COLOR_BGRA2RGBA)
             image = array2qimage(rgba_img)
     return image
+
+
+def get_image_view(imgView, image):
+    width = imgView.width()
+    height = imgView.height()
+    row, col = image.shape[1], image.shape[0]
+    a = float((width - 10) / row)
+    b = float((height - 5) / col)
+    if a < b:
+        scale = a
+    else:
+        scale = b
+    dim = (int(row * scale), int(col * scale))
+    # 缩放图像
+    resized_frame = cv.resize(image, dim)
+    # 将OpenCV格式储存的图片转换为QT可处理的图片类型
+    show_img = cv_to_qt(resized_frame)
+
+    # 将图片放入图片显示窗口
+    scene = QGraphicsScene()
+    scene.addPixmap(QPixmap.fromImage(show_img))
+    return scene
