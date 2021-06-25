@@ -3,6 +3,7 @@ import base64
 import requests
 import sys
 import time
+import re
 
 import cv2 as cv
 
@@ -46,7 +47,7 @@ class OcrReader:
 
 def ocr_with_timeline(cfg, ocr_reader, ass_path):
     box = [cfg.BOX[:2], cfg.BOX[2:]]
-
+    lang = cfg.LANG
     video = cv.VideoCapture(cfg.VIDEO)
     fps = video.get(5)  # 设置要获取的帧号
     ret, test_frame = video.read()
@@ -60,6 +61,8 @@ def ocr_with_timeline(cfg, ocr_reader, ass_path):
     total = len(subs)
     start = time.time()
     count = 0
+    re_chinese = re.compile(u"[\u4e00-\u9fa5]+")
+    re_ascii = re.compile(r'\w+', re.ASCII)
 
     i = 0
     length = len(subs)
@@ -80,16 +83,35 @@ def ocr_with_timeline(cfg, ocr_reader, ass_path):
             cv.waitKey(7000)
 
         result = ocr_reader.ocr(clipped_frame)
-
+        print(result)
         if len(result) == 0:
             subs.__delitem__(i)
             length -= 1
         else:
-            subs[i].text = result[0]
-            # TODO: 双语字幕
-            i += 1
+            #subs[i].text = result[0]
+            if len(lang) == 2:
+                split = list(map(lambda x: len(x),[re.findall(re_chinese,result[i]) for i in range(len(result))]))
+                eng_str = []
+                ch_str = []
+                iseng = 1
+                for str_ind in reversed(range(len(result))):
+                    iseng += split[str_ind]
+                    if iseng == 1:
+                        eng_str.append(result[str_ind])
+                    else:
+                        ch_str.append(result[str_ind])
+                eng_str = ' '.join(reversed(eng_str))
+                ch_str = ''.join(reversed(ch_str))
+                subs[i].text = re.findall(re_chinese, ch_str)[0]
+                subs[i+1].text = ' '.join(re.findall(re_ascii, eng_str))
+            else:
+                subtitle = ''.join(result)
+                subs[i].text = re.findall(re_chinese, subtitle)[0]
 
-        count += 1
+            # TODO: 双语字幕
+            i += len(lang)
+
+        count += len(lang)
         if (count % 1) == 0 or count == total:
             elapsed = time.time() - start
             eta = (total - count) / count * elapsed

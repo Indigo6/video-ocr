@@ -36,7 +36,7 @@ def video_ocr_vision(cfg):
     srt_prob_thres = cfg.SPLIT.VISION.SRT_THRES
     change_prob_thres = cfg.SPLIT.VISION.CHANGE_THRES
 
-    # split_vision(cfg, srt_color, clip_box, srt_prob_thres, change_prob_thres)
+    split_vision(cfg, srt_color, clip_box, srt_prob_thres, change_prob_thres)
 
     ocr_reader = OcrReader(cfg)
     ocr_with_timeline(cfg, ocr_reader, 'demo/split_vision.ass')

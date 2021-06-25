@@ -2,14 +2,14 @@ OCR_METHOD: "paddle"            # ocr方法：paddle/easy/online
 LANG:                           # 字幕语言，TODO: 自动转成各种OCR需要的缩写
   - "ch_sim"
   - "en"
-VIDEO: "demo/demo.mp4"          # 输入视频（硬嵌入字幕视频）路径
+VIDEO: "demo/lala.mp4"          # 输入视频（硬嵌入字幕视频）路径
 BOX:                            # 字幕在画面中的大致位置
   - 400                           # 上边界
   - None                          # 下边界
   - 100                           # 左边界
   - 800                           # 右边界
 VIS: false                      # 是否可视化图片腐蚀结果
-OUT: "output/demo.srt"          # 提取结果字幕输出路径
+OUT: "output/lala.srt"          # 提取结果字幕输出路径
 
 SPLIT:                          # 时间轴生成
   METHOD: "vision"                # vision/audio 使用视觉还是音频来生成时间轴
