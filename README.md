@@ -19,7 +19,26 @@
 
 ## 用法
 
-1. 打开 config/demo.yaml， 修改以下参数以适配自己的视频
+1. 在项目下创建 `output`、`frame` 文件夹，并下载 `demo.mp4` 放入 `demo` 文件夹下，链接：https://rec.ustc.edu.cn/share/6c126030-d57d-11eb-9816-d178ce2d893b，提取码：cv2021，
+   
+    目录应该如下所示
+    
+    ```
+    ${PROJECT_ROOT}
+    ├── config
+    ├── demo
+    ├── frame
+    ├── lib
+    ├── output
+    ├── .gitignore
+    ├── baidu_keys.txt (not necessary)
+    ├── main.py
+    ├── README.md
+    └── requirements.txt
+    ```
+    
+2. 打开 config/demo.yaml， 修改以下参数以适配自己的视频
+
     ```python
     OCR_METHOD: "paddle"            # ocr方法：paddle/easy/online
     LANG:                           # 字幕语言，TODO: 自动转成各种OCR需要的缩写
@@ -46,9 +65,12 @@
         MIN: 0.0                        # 人声最低音量
         MAX: 0.0                        # 人声最高音量
     ```
+3. 运行 `python main.py`
 
 ## TODO
+
 - [x] 改变视频时间轴方式，改为生成时间轴，而不是保存图片，这样和音频可以共用ocr环节
 - [x] 百度 API 更新
-- [ ] 通过音频生成时间轴
+- [ ] 双语字幕轴
 - [ ] 自动转成各种OCR需要的缩写
+- [ ] 通过音频生成时间轴
