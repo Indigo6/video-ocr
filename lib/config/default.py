@@ -9,8 +9,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import os
-
 from yacs.config import CfgNode as CN
 
 
@@ -36,7 +34,6 @@ _C.SPLIT.VISION.OUT_SEG = False
 _C.SPLIT.AUDIO = CN()
 _C.SPLIT.AUDIO.MIN = 1.0
 _C.SPLIT.AUDIO.MAX = 1.0
-_C.SPLIT.AUDIO.ASS_PATH = 'demo/demo.ass'
 
 
 def update_config(cfg, args):
