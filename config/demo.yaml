@@ -17,7 +17,8 @@ SPLIT:
     COLOR: "white"
     SRT_THRES: 1.0
     CHANGE_THRES: 5.0
-    OUTPUT_SEG: False
+    OUT_IMG: true
+    OUT_SEG: false
   AUDIO:
     ASS_PATH: 'demo/demo.ass'
     MIN: 0.0

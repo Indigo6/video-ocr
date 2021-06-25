@@ -2,7 +2,7 @@ import os
 
 import cv2 as cv
 
-from lib.utils import OcrReader
+from lib.utils import OcrReader, ocr_with_timeline
 from .split import split_vision
 
 
@@ -48,14 +48,10 @@ def video_ocr_vision(cfg):
     srt_prob_thres = cfg.SPLIT.VISION.SRT_THRES
     change_prob_thres = cfg.SPLIT.VISION.CHANGE_THRES
 
-    split_vision(cfg, srt_color, clip_box, srt_prob_thres, change_prob_thres)
-
-    video = cv.VideoCapture(cfg.VIDEO)
-    fps = video.get(5)
-    video.release()
+    # split_vision(cfg, srt_color, clip_box, srt_prob_thres, change_prob_thres)
 
     ocr_reader = OcrReader(cfg)
-    ocr_and_write(cfg, ocr_reader, fps)
+    ocr_with_timeline(cfg, ocr_reader, 'demo/split_vision.ass')
 
 
 

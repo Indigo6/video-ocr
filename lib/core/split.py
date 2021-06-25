@@ -5,7 +5,9 @@ import os
 
 import cv2 as cv
 import numpy as np
+
 from lib.utils import fmt_time
+from pysubs2 import SSAFile, SSAEvent, make_time
 
 
 def color_seg(img, color, srt_prob_thres=1):
@@ -112,7 +114,10 @@ def if_srt_changed(last_img, now_img, change_prob_thres):
 
 
 def split_vision(cfg, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
-    output_segged_frame = cfg.SPLIT.VISION.OUTPUT_SEG
+    print("------Split by vision-----")
+
+    output_segged_frame = cfg.SPLIT.VISION.OUT_SEG
+    output_frame = cfg.SPLIT.VISION.OUT_IMG
     video_path = cfg.VIDEO
     _, video_name = os.path.split(video_path)
     video_name = video_name.split('.')[0]
@@ -124,6 +129,9 @@ def split_vision(cfg, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
 
     video = cv.VideoCapture(video_path)
     frames_num = video.get(7)
+    fps = video.get(5)
+
+    subs = SSAFile.load('demo/empty.ass')
 
     fc = 0
     srt_count = 0
@@ -142,14 +150,6 @@ def split_vision(cfg, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
         fc += 1
 
         frame_segged, has_srt = if_srt_frame(clipped_frame, srt_color, srt_prob_thres)
-        # if fc > (fps * vis_start):
-        #     if debug:
-        #         cv.imshow('resized', resized_frame)
-        #         cv.waitKey(0)
-        #         cv.imshow('clipped', clipped_frame)
-        #         cv.waitKey(0)
-        #         cv.imshow('segged', frame_segged)
-        #         cv.waitKey(0)
         if has_srt:
             if not in_srt:
                 in_srt = True
@@ -159,21 +159,33 @@ def split_vision(cfg, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
             else:
                 if if_srt_changed(last_srt_seg_frame, frame_segged, change_prob_thres):
                     srt_count += 1
-                    cv.imwrite("{}/f{}_l{}.jpg".format(frame_dir, fc_start, fc-fc_start),
-                               last_srt_frame)
-                    if output_segged_frame:
-                        cv.imwrite("{}/f{}_l{}_segged.jpg".format(frame_dir, fc_start, fc-fc_start),
-                                   last_srt_seg_frame)
+
+                    subs.append(SSAEvent(start=fc_start / fps * 1000,
+                                         end=fc / fps * 1000,
+                                         text="to be filled"))
+
+                    if output_frame:
+                        cv.imwrite("{}/f{}_l{}.jpg".format(frame_dir, fc_start, fc-fc_start),
+                                   last_srt_frame)
+                        if output_segged_frame:
+                            cv.imwrite("{}/f{}_l{}_segged.jpg".format(frame_dir, fc_start, fc-fc_start),
+                                       last_srt_seg_frame)
                     fc_start = fc
                     last_srt_frame = copy.deepcopy(clipped_frame)
                     last_srt_seg_frame = copy.deepcopy(frame_segged)
         else:
             if in_srt:
                 in_srt = False
-                cv.imwrite("{}/f{}_l{}.jpg".format(frame_dir, fc_start, fc-fc_start), last_srt_frame)
-                if output_segged_frame:
-                    cv.imwrite("{}/f{}_l{}_segged.jpg".format(frame_dir, fc_start, fc-fc_start),
-                               last_srt_seg_frame)
+
+                subs.append(SSAEvent(start=fc_start / fps * 1000,
+                                     end=fc / fps * 1000,
+                                     text="to be filled"))
+
+                if output_frame:
+                    cv.imwrite("{}/f{}_l{}.jpg".format(frame_dir, fc_start, fc-fc_start), last_srt_frame)
+                    if output_segged_frame:
+                        cv.imwrite("{}/f{}_l{}_segged.jpg".format(frame_dir, fc_start, fc-fc_start),
+                                   last_srt_seg_frame)
                 srt_count += 1
                 fc_start = 0
         
@@ -182,4 +194,11 @@ def split_vision(cfg, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
         print('[%d/%d] Elapsed: %s, ETA: %s' % (fc, frames_num,
                                                 fmt_time(elapsed),
                                                 fmt_time(eta)))
+    subs.save('demo/split_vision.ass')
     video.release()
+
+
+if __name__ == "__main__":
+    sub = SSAFile.load('demo/empty.ass')
+    sub.append(SSAEvent(start=0, end=make_time(s=2.5), text="New first subtitle"))
+    print("test")

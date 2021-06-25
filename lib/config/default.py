@@ -30,7 +30,8 @@ _C.SPLIT.VISION = CN()
 _C.SPLIT.VISION.COLOR = 'white'
 _C.SPLIT.VISION.SRT_THRES = 1.0
 _C.SPLIT.VISION.CHANGE_THRES = 5.0
-_C.SPLIT.VISION.OUTPUT_SEG = False
+_C.SPLIT.VISION.OUT_IMG = False
+_C.SPLIT.VISION.OUT_SEG = False
 
 _C.SPLIT.AUDIO = CN()
 _C.SPLIT.AUDIO.MIN = 1.0
@@ -46,7 +47,7 @@ def update_config(cfg, args):
             cfg.BOX[i] = None
     _, path = _C.VIDEO.split('/')
     name, _ = path.split('.')
-    _C.OUT = "output/" + name + ".ass"
+    # _C.OUT = "output/" + name + ".ass"
     cfg.freeze()
 
 
