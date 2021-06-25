@@ -1,25 +1,24 @@
-OCR_METHOD: "paddle"
-LANG:
+OCR_METHOD: "paddle"            # ocr方法：paddle/easy/online
+LANG:                           # 字幕语言，TODO: 自动转成各种OCR需要的缩写
   - "ch_sim"
   - "en"
-VIDEO: "demo/demo.mp4"
-BOX:
-  - 540
-  - None
-  - 100
-  - 1000
-VIS: false
-OUT: "output/demo.srt"
+VIDEO: "demo/demo.mp4"          # 输入视频（硬嵌入字幕视频）路径
+BOX:                            # 字幕在画面中的大致位置
+  - 540                           # 上边界
+  - None                          # 下边界
+  - 100                           # 左边界
+  - 1000                          # 右边界
+VIS: false                      # 是否可视化图片腐蚀结果
+OUT: "output/demo.srt"          # 提取结果字幕输出路径
 
-SPLIT:
-  METHOD: "vision"
-  VISION:
-    COLOR: "white"
-    SRT_THRES: 1.0
-    CHANGE_THRES: 5.0
-    OUT_IMG: true
-    OUT_SEG: false
-  AUDIO:
-    ASS_PATH: 'demo/demo.ass'
-    MIN: 0.0
-    MAX: 0.0
+SPLIT:                          # 时间轴生成
+  METHOD: "vision"                # vision/audio 使用视觉还是音频来生成时间轴
+  VISION:                         # 使用视觉生成时间轴
+    COLOR: "white"                  # 字幕颜色
+    SRT_THRES: 1.0                  #
+    CHANGE_THRES: 5.0               #
+    OUT_IMG: true                   # 是否保存字幕关键帧
+    OUT_SEG: false                  # 是否保存腐蚀后的字幕关键帧
+  AUDIO:                         # 使用音频生成时间轴
+    MIN: 0.0                        # 人声最低音量
+    MAX: 0.0                        # 人声最高音量
