@@ -21,21 +21,27 @@ class OcrReader:
             self.model = PaddleOCR(use_angle_cls=True, lang="ch")
         elif cfg.OCR_METHOD == "online":
             # 百度 API 的 API key 和 Secret key
-            self.access_token = get_access_token('../../baidu_keys.txt')
+            self.access_token = get_access_token('baidu_keys.txt')
+
             if self.access_token is None:
                 print("Get token error!")
                 sys.exit()
 
     def ocr(self, img):
+        content = []
         if self.cfg.OCR_METHOD == "easy":
             result = self.model.readtext(img)
+            for roi in result:
+                content.append(roi[1])
         elif self.cfg.OCR_METHOD == "paddle":
             result = self.model.ocr(img)
+            for roi in result:
+                content.append(roi[1][0])
         elif self.cfg.OCR_METHOD == "online":
-            result = ocr_baidu(img, self.access_token)
-        else:
-            result = "error"
-        return result
+            result = ocr_baidu_http(img, self.access_token)
+            for item in result:
+                content.append(item['words'])
+        return content
 
 
 def ocr_with_timeline(cfg, ocr_reader, ass_path):
@@ -81,7 +87,8 @@ def ocr_with_timeline(cfg, ocr_reader, ass_path):
             subs.__delitem__(i)
             length -= 1
         else:
-            subs[i].text = result[0][1][0]
+            subs[i].text = result[0]
+            # TODO: 双语字幕
             i += 1
 
         count += 1
@@ -156,6 +163,7 @@ def simplify_ass(cfg):
 def get_access_token(key_file_path):
     access_token = None
     with open(key_file_path, mode='r') as f:
+        app_id = f.readline().strip()
         client_id = f.readline().strip()
         client_secret = f.readline().strip()
         # client_id 为官网获取的AK， client_secret 为官网获取的SK
@@ -168,7 +176,8 @@ def get_access_token(key_file_path):
     return access_token
 
 
-def ocr_baidu(image, ocr_token):
+def ocr_baidu_http(image, ocr_token):
+    image = cv.imencode(".jpg", image)[1].tobytes()
     img = base64.b64encode(image)
     request_url = "https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic"
     # request_url = "https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic"
@@ -178,9 +187,31 @@ def ocr_baidu(image, ocr_token):
     ocr_response = requests.post(request_url, data=params, headers=headers)
     if ocr_response:
         words = ocr_response.json()['words_result']
-        result = ""
-        for item in words:
-            result += item['words']
-        return result
+        return words
     else:
         return ""
+
+
+def get_baidu_client(key_file_path):
+    from aip import AipOcr
+    with open(key_file_path, mode='r') as f:
+        app_id = f.readline().strip()
+        client_id = f.readline().strip()
+        client_secret = f.readline().strip()
+
+    client = AipOcr(app_id, client_id, client_secret)
+    return client
+
+
+def ocr_baidu_aip(image, client):
+    image = cv.imencode(".jpg", image)[1].tobytes()
+    """ 如果有可选参数 """
+    options = {"language_type": "CHN_ENG",
+               "detect_direction": "true",
+               "detect_language": "true",
+               "probability": "true"}
+
+    """ 带参数调用通用文字识别, 图片参数为本地图片 """
+    result = client.basicGeneral(image, options)
+    return result
+
