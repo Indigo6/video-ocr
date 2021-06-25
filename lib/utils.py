@@ -48,17 +48,9 @@ class OcrReader:
         return content
 
 
-def ocr_with_timeline(cfg, ocr_reader, ass_path):
-    box = [cfg.BOX[:2], cfg.BOX[2:]]
-
-    video = cv.VideoCapture(cfg.VIDEO)
-    fps = video.get(5)  # 设置要获取的帧号
-    ret, test_frame = video.read()
-    if not ret:
-        print("Open Video Error!")
-        sys.exit()
-
-    # subs = SSAFile.load('S03E09.ass', encoding="utf-16-le")
+def ocr_with_timeline(video, box, ocr_reader, ass_path):
+    box = [box[:2], box[2:]]
+    fps = video.get(5)
     subs = SSAFile.load(ass_path)
 
     total = len(subs)
@@ -79,10 +71,6 @@ def ocr_with_timeline(cfg, ocr_reader, ass_path):
         _, frame = video.read()
         clipped_frame = frame[box[0][0]:box[0][1], box[1][0]:box[1][1]]
 
-        if cfg.VIS:
-            cv.imshow("ocr_img", clipped_frame)
-            cv.waitKey(7000)
-
         result = ocr_reader.ocr(clipped_frame)
 
         if len(result) == 0:
@@ -98,7 +86,7 @@ def ocr_with_timeline(cfg, ocr_reader, ass_path):
             elapsed = time.time() - start
             eta = (total - count) / count * elapsed
             print("[{}/{}], Elapsed: {}, ETA: {}".format(count, total, fmt_time(elapsed), fmt_time(eta)))
-            subs.save(cfg.OUT, format_=cfg.OUT.split('.')[-1])
+            subs.save('output/demo.ass', format_='ass')
 
 
 def parse_args():

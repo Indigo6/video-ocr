@@ -7,10 +7,10 @@ from PyQt5.QtWidgets import (QApplication, QFileDialog, QGraphicsScene,
 
 from gui import *
 from lib.core.split import split_vision
-from lib.utils import get_image_view
+from lib.utils import get_image_view, ocr_with_timeline
 
 
-class MyWindow(QMainWindow, Ui_MainWindow):
+class MyWindow(QMainWindow, Ui_VideoOCR):
     # 初始化
     def __init__(self, parent=None):
         super(MyWindow, self).__init__(parent)
@@ -22,7 +22,11 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.videoBar.sliderMoved.connect(self.video_bar)
 
         # 生成时间轴的项
-        # self.testButton.triggered.connect(self.test_seg)
+        # self.testButton.clicked.connect(self.test_seg)
+
+        # 生成字幕的项
+        self.genSub.clicked.connect(self.gen_sub)
+        self.saveFrames.isTristate()
 
         # 初始化实例变量
         self.video_path = None
@@ -55,13 +59,12 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.videoView.setScene(scene)
         self.hasOpen = True
 
-    def test_seg(self):
-        print(self.video_path, "todo")
-
     def video_bar(self):
         """
             通过 slider 所处位置确定
         """
+        if not self.hasOpen:
+            return
         bar_min = self.videoBar.minimum()
         bar_max = self.videoBar.maximum()
         bar_pos = self.videoBar.value()
@@ -71,6 +74,13 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         _, frame = self.video.read()
         scene = get_image_view(self.videoView, frame)
         self.videoView.setScene(scene)
+
+    def test_seg(self):
+        save_frames = self.saveFrames.isTristate()
+        print(self.video_path, "todo")
+
+    def gen_sub(self):
+        ocr_with_timeline(self.video)
 
 
 if __name__ == '__main__':

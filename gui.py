@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'video_ocr.ui'
+# Form implementation generated from reading ui file 'gui.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -11,14 +11,14 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1013, 579)
+class Ui_VideoOCR(object):
+    def setupUi(self, VideoOCR):
+        VideoOCR.setObjectName("VideoOCR")
+        VideoOCR.resize(1013, 579)
         font = QtGui.QFont()
         font.setFamily("Microsoft YaHei UI")
-        MainWindow.setFont(font)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        VideoOCR.setFont(font)
+        self.centralwidget = QtWidgets.QWidget(VideoOCR)
         self.centralwidget.setObjectName("centralwidget")
         self.genTime = QtWidgets.QPushButton(self.centralwidget)
         self.genTime.setGeometry(QtCore.QRect(270, 450, 110, 41))
@@ -91,44 +91,46 @@ class Ui_MainWindow(object):
         self.clipView = QtWidgets.QGraphicsView(self.centralwidget)
         self.clipView.setGeometry(QtCore.QRect(520, 20, 480, 100))
         self.clipView.setObjectName("clipView")
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        VideoOCR.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(VideoOCR)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1013, 26))
         self.menubar.setObjectName("menubar")
         self.menu = QtWidgets.QMenu(self.menubar)
         self.menu.setObjectName("menu")
-        MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        VideoOCR.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(VideoOCR)
         self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
-        self.openFile = QtWidgets.QAction(MainWindow)
+        VideoOCR.setStatusBar(self.statusbar)
+        self.openFile = QtWidgets.QAction(VideoOCR)
         self.openFile.setObjectName("openFile")
         self.menu.addAction(self.openFile)
         self.menubar.addAction(self.menu.menuAction())
 
-        self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslateUi(VideoOCR)
+        QtCore.QMetaObject.connectSlotsByName(VideoOCR)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self, VideoOCR):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.genTime.setText(_translate("MainWindow", "generate\ntimeline"))
-        self.genSub.setText(_translate("MainWindow", "generate\nsubtitle"))
-        self.saveFrames.setText(_translate("MainWindow", "保存字幕帧"))
-        self.ocrMethod.setItemText(0, _translate("MainWindow", "paddle"))
-        self.ocrMethod.setItemText(1, _translate("MainWindow", "easy"))
-        self.ocrMethod.setItemText(2, _translate("MainWindow", "online"))
-        self.minValue.setText(_translate("MainWindow", "255,255,255"))
-        self.segMethod.setItemText(0, _translate("MainWindow", "RGB"))
-        self.segMethod.setItemText(1, _translate("MainWindow", "HSV"))
-        self.isSrt.setText(_translate("MainWindow", "Not a subtitle frame"))
-        self.srtLabel.setText(_translate("MainWindow", "srtThres"))
-        self.chgLabel.setText(_translate("MainWindow", "chgThres"))
-        self.srtThres.setText(_translate("MainWindow", "1.0"))
-        self.chgThres.setText(_translate("MainWindow", "5.0"))
-        self.maxValue.setText(_translate("MainWindow", "255,255,255"))
-        self.testButton.setText(_translate("MainWindow", "Test"))
-        self.maxLabel.setText(_translate("MainWindow", "max"))
-        self.minLabel.setText(_translate("MainWindow", "min"))
-        self.menu.setTitle(_translate("MainWindow", "文件"))
-        self.openFile.setText(_translate("MainWindow", "打开视频"))
+        VideoOCR.setWindowTitle(_translate("VideoOCR", "Video OCR"))
+        self.genTime.setText(_translate("VideoOCR", "generate\n"
+"timeline"))
+        self.genSub.setText(_translate("VideoOCR", "generate\n"
+"subtitle"))
+        self.saveFrames.setText(_translate("VideoOCR", "保存字幕帧"))
+        self.ocrMethod.setItemText(0, _translate("VideoOCR", "paddle"))
+        self.ocrMethod.setItemText(1, _translate("VideoOCR", "easy"))
+        self.ocrMethod.setItemText(2, _translate("VideoOCR", "online"))
+        self.minValue.setText(_translate("VideoOCR", "255,255,255"))
+        self.segMethod.setItemText(0, _translate("VideoOCR", "RGB"))
+        self.segMethod.setItemText(1, _translate("VideoOCR", "HSV"))
+        self.isSrt.setText(_translate("VideoOCR", "Not a subtitle frame"))
+        self.srtLabel.setText(_translate("VideoOCR", "srtThres"))
+        self.chgLabel.setText(_translate("VideoOCR", "chgThres"))
+        self.srtThres.setText(_translate("VideoOCR", "1.0"))
+        self.chgThres.setText(_translate("VideoOCR", "5.0"))
+        self.maxValue.setText(_translate("VideoOCR", "255,255,255"))
+        self.testButton.setText(_translate("VideoOCR", "Test"))
+        self.maxLabel.setText(_translate("VideoOCR", "max"))
+        self.minLabel.setText(_translate("VideoOCR", "min"))
+        self.menu.setTitle(_translate("VideoOCR", "文件"))
+        self.openFile.setText(_translate("VideoOCR", "打开视频"))
