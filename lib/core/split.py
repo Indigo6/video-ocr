@@ -10,37 +10,29 @@ from lib.utils import fmt_time
 from pysubs2 import SSAFile, SSAEvent, make_time
 
 
-def color_seg(img, color, srt_prob_thres=1):
-    if color == "yellow":
-        img_hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        lower_hsv = np.array([26, 130, 46])  # 设定黄色下限, hue/saturation/value
-        upper_hsv = np.array([34, 255, 255])  # 设定黄色上限
-        mask = cv.inRange(img_hsv, lowerb=lower_hsv, upperb=upper_hsv)
-        # 依据设定的上下限对目标图像进行二值化转换
-        dst = cv.bitwise_and(img, img, mask=mask)
-        # 将二值化图像与原图进行“与”操作；实际是提取前两个frame 的“与”结果，然后输出mask 为1的部分
-        # dst = 255 * mask
-        #
-        # lower_hsv_blue = np.array([100, 100, 46])
-        # upper_hsv_blue = np.array([124, 255, 255])
-        # mask = cv.inRange(img_hsv, lowerb=lower_hsv_blue, upperb=upper_hsv_blue)
-        # dst_blue = cv.bitwise_and(img, img, mask=mask)
-        # lower_hsv_loose = np.array([26, 130, 46])
-        # upper_hsv_loose = np.array([50, 255, 255])  # 设定黄色上限
-        # mask = cv.inRange(img_hsv, lowerb=lower_hsv_loose, upperb=upper_hsv)
-        # dst_loose = cv.bitwise_and(img, img, mask=mask)
-        # dst_loose = cv.bitwise_or(dst_blue, dst_loose)
-    elif color == "white":
-        thresh = 150
-        lower_rgb = np.array([thresh, thresh, thresh])
-        upper_rgb = np.array([255, 255, 255])
-        mask = cv.inRange(img, lowerb=lower_rgb, upperb=upper_rgb)
-        dst = cv.bitwise_and(img, img, mask=mask)
-        # dst = 255 * mask
-        # dst_loose = copy.deepcopy(dst)
-    else:
-        raise ValueError("Only support yellow or white subtitle extract.")
+def color_seg(img, upper_value, lower_value, seg_method, srt_prob_thres=1):
+    if seg_method == "HSV":
+        img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+    mask = cv.inRange(img, lowerb=lower_value, upperb=upper_value)
+    dst = cv.bitwise_and(img, img, mask=mask)
+
+    # cv.imshow('test', dst)
+    # cv.waitKey(1)
+
+    # 将二值化图像与原图进行“与”操作；实际是提取前两个frame 的“与”结果，然后输出mask 为1的部分
+    # dst = 255 * mask
+    #
+    # lower_hsv_blue = np.array([100, 100, 46])
+    # upper_hsv_blue = np.array([124, 255, 255])
+    # mask = cv.inRange(img_hsv, lowerb=lower_hsv_blue, upperb=upper_hsv_blue)
+    # dst_blue = cv.bitwise_and(img, img, mask=mask)
+    # lower_hsv_loose = np.array([26, 130, 46])
+    # upper_hsv_loose = np.array([50, 255, 255])  # 设定黄色上限
+    # mask = cv.inRange(img_hsv, lowerb=lower_hsv_loose, upperb=upper_hsv)
+    # dst_loose = cv.bitwise_and(img, img, mask=mask)
+    # dst_loose = cv.bitwise_or(dst_blue, dst_loose)
     # srt_prob = (dst.astype(np.float32)**2).sum() / dst.size
+
     srt_prob = (dst**2).sum() / dst.size
     srt_yes = False
     if srt_prob > srt_prob_thres:
@@ -48,8 +40,8 @@ def color_seg(img, color, srt_prob_thres=1):
     return dst, srt_yes
 
 
-def if_srt_frame(img, color, srt_prob_thres=1, seg_method='color'):
-    frame_segged, has_srt = color_seg(img, color, srt_prob_thres)
+def if_srt_frame(img, upper_value, lower_value, seg_method, srt_prob_thres=1):
+    frame_segged, has_srt = color_seg(img, upper_value, lower_value, seg_method, srt_prob_thres)
     if has_srt:
         imgray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
         thresh = 200
@@ -113,13 +105,12 @@ def if_srt_changed(last_img, now_img, change_prob_thres):
     return srt_changed
 
 
-def split_vision(cfg, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
+def split_vision(video, video_path, upper_value, lower_value, seg_method, box, lang="ch_sim",
+                 srt_prob_thres=1, change_prob_thres=1, output_frame=False):
     print("------Split by vision-----")
 
-    output_segged_frame = cfg.SPLIT.VISION.OUT_SEG
-    output_frame = cfg.SPLIT.VISION.OUT_IMG
-    video_path = cfg.VIDEO
-    lang = cfg.LANG
+    video.set(cv.CAP_PROP_POS_FRAMES, 0)  # 设置要获取的帧号
+    output_segged_frame = True
     _, video_name = os.path.split(video_path)
     video_name = video_name.split('.')[0]
 
@@ -128,7 +119,6 @@ def split_vision(cfg, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
         shutil.rmtree(frame_dir)
     os.mkdir(frame_dir)
 
-    video = cv.VideoCapture(video_path)
     frames_num = video.get(7)
     fps = video.get(5)
 
@@ -145,10 +135,12 @@ def split_vision(cfg, srt_color, box, srt_prob_thres=1, change_prob_thres=1):
         ret, frame = video.read()
         if not ret:
             break
-        clipped_frame = frame[box[0]:box[1], box[2]:box[3]]
+        clipped_frame = frame[box[0][0]:box[0][1], box[1][0]:box[1][1]]
+        # cv.imshow('test', clipped_frame)
+        # cv.waitKey(1)
         fc += 1
 
-        frame_segged, has_srt = if_srt_frame(clipped_frame, srt_color, srt_prob_thres)
+        frame_segged, has_srt = if_srt_frame(clipped_frame, upper_value, lower_value, seg_method, srt_prob_thres)
         if has_srt:
             if not in_srt:
                 in_srt = True

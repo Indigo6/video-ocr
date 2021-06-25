@@ -1,15 +1,14 @@
-import os
 import sys
 
 import cv2 as cv
+import numpy as np
 
-from PyQt5.QtWidgets import (QApplication, QFileDialog, QGraphicsScene,
+from PyQt5.QtWidgets import (QApplication, QFileDialog, QMessageBox,
                              QMainWindow)
 
 from gui import *
 from lib.core.split import split_vision
 from lib.utils import get_image_view, ocr_with_timeline
-os.environ['QT_MAC_WANTS_LAYER'] = '1'
 
 
 class MyWindow(QMainWindow, Ui_VideoOCR):
@@ -24,11 +23,11 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         self.videoBar.sliderMoved.connect(self.video_bar)
 
         # 生成时间轴的项
-        # self.testButton.clicked.connect(self.test_seg)
+        self.testButton.clicked.connect(self.test_seg)
+        self.genTime.clicked.connect(self.gen_time)
 
         # 生成字幕的项
         self.genSub.clicked.connect(self.gen_sub)
-        self.saveFrames.isTristate()
 
         # 初始化实例变量
         self.video_path = None
@@ -78,13 +77,31 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         self.videoView.setScene(scene)
 
     def test_seg(self):
-        save_frames = self.saveFrames.isTristate()
         print(self.video_path, "todo")
+
+    def gen_time(self):
+        save_frames = self.saveFrames.isChecked()
+        seg_method = self.segMethod.itemText(self.segMethod.currentIndex())
+        upper_value = self.maxValue.text()
+        lower_value = self.minValue.text()
+        upper_values = np.array([int(i) for i in upper_value.split(',')])
+        lower_values = np.array([int(i) for i in lower_value.split(',')])
+
+        srt_prob_thres = float(self.srtThres.text())
+        change_prob_thres = float(self.chgThres.text())
+
+        # TODO: 增加语言选择选项
+        lang = 'ch_sim'
+
+        # TODO: 如何获得 box 数据
+        box = [[410, None], [100, 800]]
+
+        split_vision(self.video, self.video_path, upper_values, lower_values, seg_method,
+                     box, lang, srt_prob_thres, change_prob_thres, save_frames)
+        QMessageBox.information(self, "提示", "时间轴生成成功！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
 
     def gen_sub(self):
         ocr_with_timeline(self.video)
-
-
 
 
 if __name__ == '__main__':

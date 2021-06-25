@@ -22,10 +22,10 @@
    <widget class="QPushButton" name="genTime">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>450</y>
+      <x>760</x>
+      <y>440</y>
       <width>110</width>
-      <height>41</height>
+      <height>32</height>
      </rect>
     </property>
     <property name="font">
@@ -34,29 +34,27 @@
      </font>
     </property>
     <property name="text">
-     <string>generate
-timeline</string>
+     <string>生成时间轴</string>
     </property>
    </widget>
    <widget class="QPushButton" name="genSub">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>450</y>
+      <x>250</x>
+      <y>440</y>
       <width>110</width>
-      <height>41</height>
+      <height>32</height>
      </rect>
     </property>
     <property name="text">
-     <string>generate
-subtitle</string>
+     <string>生成字幕</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="saveFrames">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>450</y>
+      <x>650</x>
+      <y>435</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -68,10 +66,10 @@ subtitle</string>
    <widget class="QComboBox" name="ocrMethod">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>455</y>
+      <x>150</x>
+      <y>441</y>
       <width>87</width>
-      <height>28</height>
+      <height>30</height>
      </rect>
     </property>
     <item>
@@ -100,7 +98,7 @@ subtitle</string>
      </rect>
     </property>
     <property name="text">
-     <string>255,255,255</string>
+     <string>150,150,150</string>
     </property>
    </widget>
    <widget class="QComboBox" name="segMethod">
@@ -136,7 +134,7 @@ subtitle</string>
      </rect>
     </property>
     <property name="text">
-     <string>Not a subtitle frame</string>
+     <string>检测结果: 该帧不包含字幕</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -152,7 +150,7 @@ subtitle</string>
      </rect>
     </property>
     <property name="text">
-     <string>srtThres</string>
+     <string>字幕阈值</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -161,14 +159,14 @@ subtitle</string>
    <widget class="QLabel" name="chgLabel">
     <property name="geometry">
      <rect>
-      <x>670</x>
+      <x>661</x>
       <y>380</y>
-      <width>72</width>
+      <width>81</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>chgThres</string>
+     <string>新字幕阈值</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -242,7 +240,7 @@ subtitle</string>
      </rect>
     </property>
     <property name="text">
-     <string>Test</string>
+     <string>测试参数</string>
     </property>
    </widget>
    <widget class="QLabel" name="maxLabel">
@@ -255,7 +253,7 @@ subtitle</string>
      </rect>
     </property>
     <property name="text">
-     <string>max</string>
+     <string>颜色上界</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -264,14 +262,14 @@ subtitle</string>
    <widget class="QLabel" name="minLabel">
     <property name="geometry">
      <rect>
-      <x>670</x>
+      <x>661</x>
       <y>300</y>
-      <width>72</width>
+      <width>81</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>min</string>
+     <string>颜色下界</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
