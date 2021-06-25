@@ -19,7 +19,7 @@
 
 ## 用法
 
-1. 在项目下创建 `output`、`frame` 文件夹，并下载 `demo.mp4` 放入 `demo` 文件夹下，链接：https://rec.ustc.edu.cn/share/6c126030-d57d-11eb-9816-d178ce2d893b，提取码：cv2021，
+1. 在项目下创建 `output`、`frame` 文件夹，并下载 `demo.mp4` 放入 `demo` 文件夹下，链接：[https://rec.ustc.edu.cn/share/6c126030-d57d-11eb-9816-d178ce2d893b](https://rec.ustc.edu.cn/share/6c126030-d57d-11eb-9816-d178ce2d893b)， 提取码：cv2021，
    
     目录应该如下所示
     
