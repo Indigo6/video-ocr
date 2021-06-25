@@ -8,8 +8,9 @@ from PyQt5.QtWidgets import (QApplication, QFileDialog, QGraphicsScene,
 from gui import *
 from lib.core.split import split_vision
 from lib.utils import get_image_view
+import os
 
-
+os.environ['QT_MAC_WANTS_LAYER'] = '1'
 class MyWindow(QMainWindow, Ui_MainWindow):
     # 初始化
     def __init__(self, parent=None):
@@ -22,7 +23,7 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         self.videoBar.sliderMoved.connect(self.video_bar)
 
         # 生成时间轴的项
-        # self.testButton.triggered.connect(self.test_seg)
+        #self.testButton.triggered.connect(self.test_seg)
 
         # 初始化实例变量
         self.video_path = None
@@ -71,6 +72,8 @@ class MyWindow(QMainWindow, Ui_MainWindow):
         _, frame = self.video.read()
         scene = get_image_view(self.videoView, frame)
         self.videoView.setScene(scene)
+
+
 
 
 if __name__ == '__main__':

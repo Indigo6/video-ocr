@@ -3,14 +3,11 @@ import base64
 import requests
 import sys
 import time
+import re
 
 import cv2 as cv
 
 from pysubs2 import SSAFile
-from PyQt5 import QtGui
-from PyQt5.Qt import QPixmap
-from PyQt5.QtWidgets import QGraphicsScene
-from qimage2ndarray import array2qimage
 
 
 class OcrReader:
@@ -50,7 +47,7 @@ class OcrReader:
 
 def ocr_with_timeline(cfg, ocr_reader, ass_path):
     box = [cfg.BOX[:2], cfg.BOX[2:]]
-
+    lang = cfg.LANG
     video = cv.VideoCapture(cfg.VIDEO)
     fps = video.get(5)  # 设置要获取的帧号
     ret, test_frame = video.read()
@@ -64,6 +61,8 @@ def ocr_with_timeline(cfg, ocr_reader, ass_path):
     total = len(subs)
     start = time.time()
     count = 0
+    re_chinese = re.compile(u"[\u4e00-\u9fa5]+")
+    re_ascii = re.compile(r'\w+', re.ASCII)
 
     i = 0
     length = len(subs)
@@ -84,16 +83,35 @@ def ocr_with_timeline(cfg, ocr_reader, ass_path):
             cv.waitKey(7000)
 
         result = ocr_reader.ocr(clipped_frame)
-
+        print(result)
         if len(result) == 0:
             subs.__delitem__(i)
             length -= 1
         else:
-            subs[i].text = result[0]
-            # TODO: 双语字幕
-            i += 1
+            #subs[i].text = result[0]
+            if len(lang) == 2:
+                split = list(map(lambda x: len(x),[re.findall(re_chinese,result[i]) for i in range(len(result))]))
+                eng_str = []
+                ch_str = []
+                iseng = 1
+                for str_ind in reversed(range(len(result))):
+                    iseng += split[str_ind]
+                    if iseng == 1:
+                        eng_str.append(result[str_ind])
+                    else:
+                        ch_str.append(result[str_ind])
+                eng_str = ' '.join(reversed(eng_str))
+                ch_str = ''.join(reversed(ch_str))
+                subs[i].text = re.findall(re_chinese, ch_str)[0]
+                subs[i+1].text = ' '.join(re.findall(re_ascii, eng_str))
+            else:
+                subtitle = ''.join(result)
+                subs[i].text = re.findall(re_chinese, subtitle)[0]
 
-        count += 1
+            # TODO: 双语字幕
+            i += len(lang)
+
+        count += len(lang)
         if (count % 1) == 0 or count == total:
             elapsed = time.time() - start
             eta = (total - count) / count * elapsed
@@ -216,56 +234,3 @@ def ocr_baidu_aip(image, client):
     """ 带参数调用通用文字识别, 图片参数为本地图片 """
     result = client.basicGeneral(image, options)
     return result
-
-
-def cv_to_qt(img):
-    """
-    将用 opencv 读入的图像转换成qt可以读取的图像
-
-    ========== =====================
-    序号       支持类型
-    ========== =================
-             1 灰度图 Gray
-             2 三通道的图 BGR顺序
-             3 四通道的图 BGRA顺序
-    ========= ===================
-    """
-    if len(img.shape) == 2:
-        # 读入灰度图的时候
-        image = array2qimage(img)
-    elif len(img.shape) == 3:
-        # 读入RGB或RGBA的时候
-        if img.shape[2] == 3:
-            # 转换为RGB排列
-            rgb_img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
-            # rgb_img.shape[1]*rgb_img.shape[2]这一句时用来解决扭曲的问题
-            # 详情参考 https://blog.csdn.net/owen7500/article/details/50905659 这篇博客
-            image = QtGui.QImage(rgb_img, rgb_img.shape[1], rgb_img.shape[0],
-                                 rgb_img.shape[1] * rgb_img.shape[2], QtGui.QImage.Format_RGB888)
-        elif img.shape[2] == 4:
-            # 读入为RGBA的时候
-            rgba_img = cv.cvtColor(img, cv.COLOR_BGRA2RGBA)
-            image = array2qimage(rgba_img)
-    return image
-
-
-def get_image_view(imgView, image):
-    width = imgView.width()
-    height = imgView.height()
-    row, col = image.shape[1], image.shape[0]
-    a = float((width - 10) / row)
-    b = float((height - 5) / col)
-    if a < b:
-        scale = a
-    else:
-        scale = b
-    dim = (int(row * scale), int(col * scale))
-    # 缩放图像
-    resized_frame = cv.resize(image, dim)
-    # 将OpenCV格式储存的图片转换为QT可处理的图片类型
-    show_img = cv_to_qt(resized_frame)
-
-    # 将图片放入图片显示窗口
-    scene = QGraphicsScene()
-    scene.addPixmap(QPixmap.fromImage(show_img))
-    return scene
