@@ -12,51 +12,30 @@ Style: Default,Arial,20.0,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,10
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-Dialogue: 0,0:00:02.08,0:00:05.62,Default,,0,0,0,,夕阳消失在地平线
-Dialogue: 0,0:00:02.08,0:00:05.62,Default,,0,0,0,,
-Dialogue: 0,0:00:06.16,0:00:10.19,Default,,0,0,0,,万家灯火逐渐点亮
-Dialogue: 0,0:00:06.16,0:00:10.19,Default,,0,0,0,,AThe lights are turningon
-Dialogue: 0,0:00:10.98,0:00:16.35,Default,,0,0,0,,一道银光延亘至海
-Dialogue: 0,0:00:10.98,0:00:16.35,Default,,0,0,0,,pA silver shine that stretches to the sea
-Dialogue: 0,0:00:18.81,0:00:26.26,Default,,0,0,0,,此景专为两人定制
-Dialogue: 0,0:00:18.81,0:00:26.26,Default,,0,0,0,,FThat s tailor made for two
+Dialogue: 0,0:00:02.08,0:00:05.62,Default,,0,0,0,,卜夕阳消失在地平线
+Dialogue: 0,0:00:06.16,0:00:10.19,Default,,0,0,0,,卜万家灯火逐渐点亮
+Dialogue: 0,0:00:10.98,0:00:16.35,Default,,0,0,0,,卜一道银光延亘至海
+Dialogue: 0,0:00:18.81,0:00:22.10,Default,,0,0,0,,卜我们邂逅迷人景色
+Dialogue: 0,0:00:22.10,0:00:26.26,Default,,0,0,0,,卜此景专为两人定制
 Dialogue: 0,0:00:27.30,0:00:32.67,Default,,0,0,0,,可惜这两人是你我
-Dialogue: 0,0:00:27.30,0:00:32.67,Default,,0,0,0,,FWhat a shame those two are you and me
 Dialogue: 0,0:00:34.25,0:00:38.92,Default,,0,0,0,,若换作另一对男女
-Dialogue: 0,0:00:34.25,0:00:38.92,Default,,0,0,0,,Some other girl and guy
-Dialogue: 0,0:00:38.92,0:00:42.00,Default,,0,0,0,,会爱上这迷幻天空
-Dialogue: 0,0:00:38.92,0:00:42.00,Default,,0,0,0,,Would love this swirling sky
-Dialogue: 0,0:00:42.00,0:00:45.87,Default,,0,0,0,,但这里只有你和我
-Dialogue: 0,0:00:42.00,0:00:45.87,Default,,0,0,0,,But there s only you and I
-Dialogue: 0,0:00:46.20,0:00:49.82,Default,,0,0,0,,我们没可能在一起
-Dialogue: 0,0:00:46.20,0:00:49.82,Default,,0,0,0,,PAnd we ve no shot got
-Dialogue: 0,0:00:49.86,0:00:52.99,Default,,0,0,0,,绝对成不了
-Dialogue: 0,0:00:49.86,0:00:52.99,Default,,0,0,0,,pThis could never be
-Dialogue: 0,0:00:53.40,0:00:56.23,Default,,0,0,0,,你不是我钟意的类型
-Dialogue: 0,0:00:53.40,0:00:56.23,Default,,0,0,0,,You re not the type for me Really
+Dialogue: 0,0:00:38.92,0:00:42.00,Default,,0,0,0,,卜会爱上这迷幻天空
+Dialogue: 0,0:00:42.00,0:00:45.87,Default,,0,0,0,,卜但这里只有你和我
+Dialogue: 0,0:00:46.20,0:00:49.82,Default,,0,0,0,,卜我们没可能在一起
+Dialogue: 0,0:00:49.86,0:00:52.99,Default,,0,0,0,,卜绝对成不了
+Dialogue: 0,0:00:53.40,0:00:56.23,Default,,0,0,0,,卜你不是我钟意的类型
 Dialogue: 0,0:00:56.23,0:01:00.06,Default,,0,0,0,,目光相对擦不出火花
-Dialogue: 0,0:00:56.23,0:01:00.06,Default,,0,0,0,,FAnd there s not a spark in sight
-Dialogue: 0,0:01:00.52,0:01:05.35,Default,,0,0,0,,可惜了这美妙的夜晚
-Dialogue: 0,0:01:00.52,0:01:05.35,Default,,0,0,0,,What a Waste of a lovely night
-Dialogue: 0,0:01:07.51,0:01:10.84,Default,,0,0,0,,你说什么感觉都没有
-Dialogue: 0,0:01:07.51,0:01:10.84,Default,,0,0,0,,You say there s nothing here
-Dialogue: 0,0:01:10.84,0:01:13.51,Default,,0,0,0,,这件事我说了算
-Dialogue: 0,0:01:10.84,0:01:13.51,Default,,0,0,0,,pIthink IIl be the one to make that call
+Dialogue: 0,0:01:00.52,0:01:05.35,Default,,0,0,0,,卜可惜了这美妙的夜晚
+Dialogue: 0,0:01:07.51,0:01:10.84,Default,,0,0,0,,卜你说什么感觉都没有
+Dialogue: 0,0:01:10.84,0:01:13.51,Default,,0,0,0,,卜这件事我说了算
 Dialogue: 0,0:01:13.51,0:01:14.34,Default,,0,0,0,,你会给我打电话
-Dialogue: 0,0:01:13.51,0:01:14.34,Default,,0,0,0,,But call yoU II
-Dialogue: 0,0:01:14.34,0:01:17.25,Default,,0,0,0,,穿着廉价涤纶西装
-Dialogue: 0,0:01:14.34,0:01:17.25,Default,,0,0,0,,pAnd though you look so cute in your polyester suit
-Dialogue: 0,0:01:17.25,0:01:20.42,Default,,0,0,0,,你说得对
-Dialogue: 0,0:01:17.25,0:01:20.42,Default,,0,0,0,,You re right I d never fall foryou atall
-Dialogue: 0,0:01:20.96,0:01:24.29,Default,,0,0,0,,也许这能迷住
-Dialogue: 0,0:01:20.96,0:01:24.29,Default,,0,0,0,,PAnd maybe this appeals
-Dialogue: 0,0:01:24.29,0:01:34.69,Default,,0,0,0,,或是幻想浪漫的姑娘
-Dialogue: 0,0:01:24.29,0:01:34.69,Default,,0,0,0,,pOrto any girl who feels there s some chance for romance
+Dialogue: 0,0:01:14.34,0:01:17.25,Default,,0,0,0,,卜穿着廉价涤纶西装
+Dialogue: 0,0:01:17.25,0:01:17.75,Default,,0,0,0,,是羊毛
+Dialogue: 0,0:01:17.75,0:01:20.42,Default,,0,0,0,,卜你说得对
+Dialogue: 0,0:01:20.96,0:01:27.04,Default,,0,0,0,,卜也许这能迷住
+Dialogue: 0,0:01:27.04,0:01:34.69,Default,,0,0,0,,卜或是幻想浪漫的姑娘
 Dialogue: 0,0:01:34.69,0:01:38.69,Default,,0,0,0,,但我心里真的毫无波澜
-Dialogue: 0,0:01:34.69,0:01:38.69,Default,,0,0,0,,But I m frankly feeling nothing pIs that 50
-Dialogue: 0,0:01:38.69,0:01:43.52,Default,,0,0,0,,很高兴你也有同感
-Dialogue: 0,0:01:38.69,0:01:43.52,Default,,0,0,0,,Good to know so you agree
-Dialogue: 0,0:01:43.52,0:01:44.64,Default,,0,0,0,,没错
-Dialogue: 0,0:01:43.52,0:01:44.64,Default,,0,0,0,,AThat s right
-Dialogue: 0,0:01:44.64,0:01:48.43,Default,,0,0,0,,可惜了这美妙的夜晚
-Dialogue: 0,0:01:44.64,0:01:48.43,Default,,0,0,0,,NWhat a way to Waste of a lovely night
+Dialogue: 0,0:01:38.69,0:01:40.69,Default,,0,0,0,,卜或者比毫无波澜更平静
+Dialogue: 0,0:01:40.69,0:01:43.52,Default,,0,0,0,,卜很高兴你也有同感
+Dialogue: 0,0:01:43.52,0:01:44.64,Default,,0,0,0,,卜没错
+Dialogue: 0,0:01:44.64,0:01:48.43,Default,,0,0,0,,卜可惜了这美妙的夜晚

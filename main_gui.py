@@ -212,7 +212,8 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         ocr_reader = OcrReader(ocr_method, lang)
         ass_path = "output/split_vision.ass"
         # ocr_with_timeline(self.video, box, ocr_reader, ass_path, lang, self.progressBar)
-        gen_sub_thread = GenSubThread(self.video, box, ocr_reader, ass_path, lang, self, self.progressBar)
+        gen_sub_thread = GenSubThread(self.video, self.video_path, box,
+                                      ocr_reader, lang, self, self.progressBar)
         gen_sub_thread.run()
 
 

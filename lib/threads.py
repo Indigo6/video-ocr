@@ -27,16 +27,16 @@ class TimelineThread(threading.Thread):
 
 
 class GenSubThread(threading.Thread):
-    def __init__(self, video, box, ocr_reader, ass_path, lang, main_window, progress_bar):
+    def __init__(self, video, video_path, box, ocr_reader, lang, main_window, progress_bar):
         threading.Thread.__init__(self)
         self.video = video
+        self.video_path = video_path
         self.box = box
         self.ocr_reader = ocr_reader
-        self.ass_path = ass_path
         self.lang = lang
         self.main_window = main_window
         self.progress_bar = progress_bar
 
     def run(self):
-        ocr_with_timeline(self.video, self.box, self.ocr_reader, self.ass_path,
+        ocr_with_timeline(self.video, self.video_path, self.box, self.ocr_reader,
                           self.lang, self.main_window, self.progress_bar)

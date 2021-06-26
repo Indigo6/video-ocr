@@ -198,7 +198,8 @@ def split_vision(video, video_path, upper_value, lower_value, seg_method, box, m
         print('[%d/%d] Elapsed: %s, ETA: %s' % (fc, frames_num,
                                                 fmt_time(elapsed),
                                                 fmt_time(eta)))
-    subs.save('output/split_vision.ass')
+    video_path.split('/')
+    subs.save(frame_dir+'/split_vision.ass')
     progress_bar.setValue(100)
     QMessageBox.information(main_window, "提示", "时间轴生成成功！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
     progress_bar.setValue(0)

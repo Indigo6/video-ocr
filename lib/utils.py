@@ -90,13 +90,21 @@ class MyGraphicsView(QGraphicsView):
         self.drawing = False
 
 
-def ocr_with_timeline(video, box, ocr_reader, ass_path, lang, main_window, progress_bar):
+def ocr_with_timeline(video, video_path, box, ocr_reader, lang, main_window, progress_bar):
     fps = video.get(5)
-    subs = SSAFile.load(ass_path)
+
+    _, video_name = os.path.split(video_path)
+    video_name = video_name.split('.')[0]
+    frame_dir = 'frame/'+video_name+'/'
+
+    subs = SSAFile.load(frame_dir+'/split_vision.ass')
+
+    prefix = video_path[:-len(video_path.split('.')[-1])]
 
     total = len(subs)
     start = time.time()
     count = 0
+
     re_chinese = re.compile(u"[\u4e00-\u9fa5]+")
     re_ascii = re.compile(r'\w+', re.ASCII)
 
@@ -148,7 +156,7 @@ def ocr_with_timeline(video, box, ocr_reader, ass_path, lang, main_window, progr
             elapsed = time.time() - start
             eta = (total - count) / count * elapsed
             print("[{}/{}], Elapsed: {}, ETA: {}".format(count, total, fmt_time(elapsed), fmt_time(eta)))
-            subs.save('output/demo.ass', format_='ass')
+            subs.save(prefix+'ass', format_='ass')
 
     progress_bar.setValue(100)
     QMessageBox.information(main_window, "提示", "字幕生成成功！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
@@ -169,8 +177,6 @@ def parse_args():
 def check_dir():
     if not os.path.exists('frame'):
         os.mkdir('frame')
-    if not os.path.exists('output'):
-        os.mkdir('output')
 
 
 def get_empty_sub():
