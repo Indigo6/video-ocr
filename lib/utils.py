@@ -11,9 +11,11 @@ import cv2 as cv
 
 from paddleocr import PaddleOCR
 from pysubs2 import SSAFile
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtCore
 from PyQt5.Qt import QPixmap
-from PyQt5.QtWidgets import QGraphicsScene, QMessageBox
+from PyQt5.QtWidgets import QGraphicsScene, QMessageBox, QGraphicsView
+from PyQt5.QtCore import Qt, QRectF
+from PyQt5.QtGui import QPainter, QPen
 from qimage2ndarray import array2qimage
 
 
@@ -47,6 +49,46 @@ class OcrReader:
             for item in result:
                 content.append(item['words'])
         return content
+
+
+class MyGraphicsView(QGraphicsView):
+    def __init__(self, central_widget):
+        super().__init__(central_widget)
+        self.widget = central_widget
+        self.start = [0, 0]
+        self.end = [0, 0]
+        self.rect = QRectF()
+        self.old_rect_item = None
+        self.drawing = False
+
+    def mousePressEvent(self, event):
+        self.start = [event.x(), event.y()]
+        self.drawing = True
+        print('start:[{}, {}]'.format(self.start[0], self.start[1]))
+
+    def mouseMoveEvent(self, event):
+        if not self.drawing:
+            return
+        self.end = [event.x(), event.y()]
+        print('end:[{}, {}]'.format(self.end[0], self.end[1]))
+
+        temp_start = [min(self.start[0], self.end[0]), min(self.start[1], self.end[1])]
+        temp_end = [max(self.start[0], self.end[0]), max(self.start[1], self.end[1])]
+        self.start = temp_start
+        self.end = temp_end
+
+        scene = self.scene()
+        if not scene:
+            scene = QGraphicsScene()
+        if self.old_rect_item:
+            scene.removeItem(self.old_rect_item)
+        self.rect.setRect(self.start[0], self.start[1], self.end[0] - self.start[0], self.end[1] - self.start[1])
+        self.old_rect_item = scene.addRect(self.rect, QPen(Qt.red, 3, Qt.SolidLine))
+        self.setScene(scene)
+
+    # 释放鼠标
+    def mouseReleaseEvent(self, event):
+        self.drawing = False
 
 
 def ocr_with_timeline(video, box, ocr_reader, ass_path, lang, main_window, progress_bar):
@@ -225,15 +267,15 @@ def ocr_baidu_http(image, ocr_token):
         return ""
 
 
-def get_baidu_client(key_file_path):
-    from aip import AipOcr
-    with open(key_file_path, mode='r') as f:
-        app_id = f.readline().strip()
-        client_id = f.readline().strip()
-        client_secret = f.readline().strip()
-
-    client = AipOcr(app_id, client_id, client_secret)
-    return client
+# def get_baidu_client(key_file_path):
+#     from aip import AipOcr
+#     with open(key_file_path, mode='r') as f:
+#         app_id = f.readline().strip()
+#         client_id = f.readline().strip()
+#         client_secret = f.readline().strip()
+#
+#     client = AipOcr(app_id, client_id, client_secret)
+#     return client
 
 
 def ocr_baidu_aip(image, client):

@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from lib.utils import MyGraphicsView
 
 
 class Ui_VideoOCR(object):
@@ -55,11 +56,11 @@ class Ui_VideoOCR(object):
         self.isSrt.setObjectName("isSrt")
         self.srtLabel = QtWidgets.QLabel(self.centralwidget)
         self.srtLabel.setGeometry(QtCore.QRect(620, 151, 72, 15))
-        self.srtLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.srtLabel.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.srtLabel.setObjectName("srtLabel")
         self.chgLabel = QtWidgets.QLabel(self.centralwidget)
         self.chgLabel.setGeometry(QtCore.QRect(610, 191, 81, 20))
-        self.chgLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.chgLabel.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.chgLabel.setObjectName("chgLabel")
         self.srtThres = QtWidgets.QLineEdit(self.centralwidget)
         self.srtThres.setGeometry(QtCore.QRect(720, 151, 100, 21))
@@ -82,13 +83,14 @@ class Ui_VideoOCR(object):
         self.testButton.setObjectName("testButton")
         self.maxLabel = QtWidgets.QLabel(self.centralwidget)
         self.maxLabel.setGeometry(QtCore.QRect(620, 71, 72, 20))
-        self.maxLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.maxLabel.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.maxLabel.setObjectName("maxLabel")
         self.minLabel = QtWidgets.QLabel(self.centralwidget)
         self.minLabel.setGeometry(QtCore.QRect(610, 111, 81, 20))
-        self.minLabel.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.minLabel.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.minLabel.setObjectName("minLabel")
-        self.videoView = QtWidgets.QGraphicsView(self.centralwidget)
+        # self.videoView = QtWidgets.QGraphicsView(self.centralwidget)
+        self.videoView = MyGraphicsView(self.centralwidget)
         self.videoView.setGeometry(QtCore.QRect(20, 20, 560, 325))
         self.videoView.setObjectName("videoView")
         self.clipView = QtWidgets.QGraphicsView(self.centralwidget)
