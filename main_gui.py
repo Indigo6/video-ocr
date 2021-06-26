@@ -19,7 +19,7 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         self.setupUi(self)
 
         self.videoView.my_scene.setSceneRect(0, 0, 544, 306)
-        self.clipView.my_scene.setSceneRect(0, 0, 922, 99)
+        self.clipView.my_scene.setSceneRect(0, 0, 920, 90)
 
         # 注册监听
         # 打开文件的项
@@ -148,8 +148,7 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         frame_seg, has_srt = if_srt_frame(clipped_frame, upper_values, lower_values, seg_method, srt_prob_thres)
         # 缩放图像为适应窗口的大小
         # 获得缩放比例
-        if self.clipView.old_img_item:
-            self.clipView.my_scene.removeItem(self.clipView.old_img_item)
+        self.clipView.my_scene.clear()
         self.clipView.old_img_item = get_image_view(self.clipView.my_scene, self.clipView, frame_seg)
         self.clipView.setScene(self.clipView.my_scene)
         if has_srt:
