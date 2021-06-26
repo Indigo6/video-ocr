@@ -43,6 +43,8 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         打开视频，并显示第一帧
         """
         video_name, video_type = QFileDialog.getOpenFileName(self, "打开视频", "", "*.mp4;;*.mkv;;*.avi;;*.rmvb")
+        if not video_name:
+            return
         if not video_type not in ['.mp4', '.mkv', '.avi', '.rmvb']:
             raise ValueError("Not a video file:{}".format(video_name))
         print(video_name, video_type)

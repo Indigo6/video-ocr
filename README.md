@@ -1,5 +1,7 @@
 # VIDEO_OCR
 
+![demo](images/demo.png)
+
 基于 paddle_ocr/easy_ocr(本地) 和 百度AI平台(在线) 实现的视频硬嵌入字幕提取
 
 ## 依赖
@@ -19,58 +21,23 @@
 
 ## 用法
 
-1. 在项目下创建 `output`、`frame` 文件夹，并下载 `demo.mp4` 放入 `demo` 文件夹下，链接：[https://rec.ustc.edu.cn/share/6c126030-d57d-11eb-9816-d178ce2d893b](https://rec.ustc.edu.cn/share/6c126030-d57d-11eb-9816-d178ce2d893b)， 提取码：cv2021，
-   
-    目录应该如下所示
-    
-    ```
-    ${PROJECT_ROOT}
-    ├── config
-    ├── demo
-    ├── frame
-    ├── lib
-    ├── output
-    ├── .gitignore
-    ├── baidu_keys.txt (not necessary)
-    ├── main.py
-    ├── README.md
-    └── requirements.txt
-    ```
-    
-2. 打开 config/demo.yaml， 修改以下参数以适配自己的视频
-
-    ```python
-    OCR_METHOD: "paddle"            # ocr方法：paddle/easy/online
-    LANG:                           # 字幕语言，TODO: 自动转成各种OCR需要的缩写
-      - "ch_sim"
-      - "en"
-    VIDEO: "demo/demo.mp4"          # 输入视频（硬嵌入字幕视频）路径
-    BOX:                            # 字幕在画面中的大致位置
-      - 540                           # 上边界
-      - None                          # 下边界
-      - 100                           # 左边界
-      - 1000                          # 右边界
-    VIS: false                      # 是否可视化图片腐蚀结果
-    OUT: "output/demo.srt"          # 提取结果字幕输出路径
-    
-    SPLIT:                          # 时间轴生成
-      METHOD: "vision"                # vision/audio 使用视觉还是音频来生成时间轴
-      VISION:                         # 使用视觉生成时间轴
-        COLOR: "white"                  # 字幕颜色
-        SRT_THRES: 1.0                  #
-        CHANGE_THRES: 5.0               #
-        OUT_IMG: true                   # 是否保存字幕关键帧
-        OUT_SEG: false                  # 是否保存腐蚀后的字幕关键帧
-      AUDIO:                         # 使用音频生成时间轴
-        MIN: 0.0                        # 人声最低音量
-        MAX: 0.0                        # 人声最高音量
-    ```
-3. 运行 `python main.py`
+3. 运行 `python main_gui.py`
 
 ## TODO
 
-- [x] 改变视频时间轴方式，改为生成时间轴，而不是保存图片，这样和音频可以共用ocr环节
-- [x] 百度 API 更新
-- [ ] 双语字幕轴
+- [x] ~~改变视频时间轴方式，改为生成时间轴，而不是保存图片，这样和音频可以共用ocr环节~~
+- [x] ~~百度 API 更新~~
+- [x] ~~双语字幕轴~~
 - [ ] 自动转成各种OCR需要的缩写
 - [ ] 通过音频生成时间轴
+- [ ] GUI 界面
+  - [x] ~~视频显示与拖动查看~~
+  - [x] ~~各种选项与按钮的设计与监听~~
+  - [x] ~~进度条与完成提示~~
+  - [x] ~~非法动作的识别与处理~~
+  - [x] ~~耗时算法的线程化~~
+  - [ ] 字幕颜色取色器
+  - [ ] 字幕裁剪框的交互
+- [ ] 其他计划
+  - [ ] QSS 美化
+  - [ ] 打包
