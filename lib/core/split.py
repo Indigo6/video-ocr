@@ -8,6 +8,7 @@ import numpy as np
 
 from lib.utils import fmt_time, get_empty_sub
 from pysubs2 import SSAFile, SSAEvent, make_time
+from PyQt5.QtWidgets import QMessageBox
 
 
 def color_seg(img, upper_value, lower_value, seg_method, srt_prob_thres=1):
@@ -105,7 +106,7 @@ def if_srt_changed(last_img, now_img, change_prob_thres):
     return srt_changed
 
 
-def split_vision(video, video_path, upper_value, lower_value, seg_method, box, progress_bar,
+def split_vision(video, video_path, upper_value, lower_value, seg_method, box, main_window, progress_bar,
                  lang="ch_sim", srt_prob_thres=1, change_prob_thres=1, output_frame=False):
     print("------Split by vision-----")
 
@@ -198,6 +199,9 @@ def split_vision(video, video_path, upper_value, lower_value, seg_method, box, p
                                                 fmt_time(elapsed),
                                                 fmt_time(eta)))
     subs.save('output/split_vision.ass')
+    progress_bar.setValue(100)
+    QMessageBox.information(main_window, "提示", "时间轴生成成功！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+    progress_bar.setValue(0)
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ import cv2 as cv
 from pysubs2 import SSAFile
 from PyQt5 import QtGui
 from PyQt5.Qt import QPixmap
-from PyQt5.QtWidgets import QGraphicsScene
+from PyQt5.QtWidgets import QGraphicsScene, QMessageBox
 from qimage2ndarray import array2qimage
 
 
@@ -49,7 +49,7 @@ class OcrReader:
         return content
 
 
-def ocr_with_timeline(video, box, ocr_reader, ass_path, lang, progress_bar):
+def ocr_with_timeline(video, box, ocr_reader, ass_path, lang, main_window, progress_bar):
     fps = video.get(5)
     subs = SSAFile.load(ass_path)
 
@@ -108,6 +108,10 @@ def ocr_with_timeline(video, box, ocr_reader, ass_path, lang, progress_bar):
             eta = (total - count) / count * elapsed
             print("[{}/{}], Elapsed: {}, ETA: {}".format(count, total, fmt_time(elapsed), fmt_time(eta)))
             subs.save('output/demo.ass', format_='ass')
+
+    progress_bar.setValue(100)
+    QMessageBox.information(main_window, "提示", "字幕生成成功！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+    progress_bar.setValue(0)
 
 
 def parse_args():

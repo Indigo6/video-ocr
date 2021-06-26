@@ -1,4 +1,3 @@
-import os
 import sys
 
 import cv2 as cv
@@ -8,8 +7,8 @@ from PyQt5.QtWidgets import (QApplication, QFileDialog, QMessageBox,
                              QMainWindow)
 
 from gui import *
-from lib.core.split import split_vision
-from lib.utils import get_image_view, ocr_with_timeline, OcrReader, check_dir
+from lib.utils import get_image_view, OcrReader, check_dir
+from lib.threads import TimelineThread, GenSubThread
 
 
 class MyWindow(QMainWindow, Ui_VideoOCR):
@@ -103,11 +102,11 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         # TODO: 如何获得 box 数据
         box = [[410, None], [100, 800]]
 
-        split_vision(self.video, self.video_path, upper_values, lower_values, seg_method, box,
-                     self.progressBar, lang, srt_prob_thres, change_prob_thres, save_frames)
-        self.progressBar.setValue(100)
-        QMessageBox.information(self, "提示", "时间轴生成成功！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
-        self.progressBar.setValue(0)
+        # split_vision(self.video, self.video_path, upper_values, lower_values, seg_method, box,
+        #              self.progressBar, lang, srt_prob_thres, change_prob_thres, save_frames)
+        split_thread = TimelineThread(self.video, self.video_path, upper_values, lower_values, seg_method, box,
+                                      self, self.progressBar, lang, srt_prob_thres, change_prob_thres, save_frames)
+        split_thread.run()
 
     def gen_sub(self):
         if not self.hasOpen:
@@ -120,10 +119,9 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         # TODO: 自动转成各种OCR需要的缩写
         ocr_reader = OcrReader(ocr_method, lang)
         ass_path = "output/split_vision.ass"
-        ocr_with_timeline(self.video, box, ocr_reader, ass_path, lang, self.progressBar)
-        self.progressBar.setValue(100)
-        QMessageBox.information(self, "提示", "字幕生成成功！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
-        self.progressBar.setValue(0)
+        # ocr_with_timeline(self.video, box, ocr_reader, ass_path, lang, self.progressBar)
+        gen_sub_thread = GenSubThread(self.video, box, ocr_reader, ass_path, lang, self, self.progressBar)
+        gen_sub_thread.run()
 
 
 if __name__ == '__main__':
