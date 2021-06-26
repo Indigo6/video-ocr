@@ -22,7 +22,7 @@ class OcrReader:
             self.model = easyocr.Reader(lang)
         elif self.method == "paddle":
             from paddleocr import PaddleOCR
-            self.model = PaddleOCR(use_angle_cls=True, lang="ch")
+            self.model = PaddleOCR(use_angle_cls=False, lang="ch")
         elif self.method == "online":
             # 百度 API 的 API key 和 Secret key
             self.access_token = get_access_token('baidu_keys.txt')
@@ -48,8 +48,7 @@ class OcrReader:
         return content
 
 
-def ocr_with_timeline(video, box, ocr_reader, ass_path, lang=['ch_sim']):
-    #box = [box[:2], box[2:]]
+def ocr_with_timeline(video, box, ocr_reader, ass_path, lang, progress_bar):
     fps = video.get(5)
     subs = SSAFile.load(ass_path)
 
@@ -102,6 +101,7 @@ def ocr_with_timeline(video, box, ocr_reader, ass_path, lang=['ch_sim']):
             i += len(lang)
 
         count += len(lang)
+        progress_bar.setValue(int(count / total * 100) + 1)
         if (count % 1) == 0 or count == total:
             elapsed = time.time() - start
             eta = (total - count) / count * elapsed

@@ -22,8 +22,8 @@
    <widget class="QPushButton" name="genTime">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>439</y>
+      <x>809</x>
+      <y>429</y>
       <width>110</width>
       <height>32</height>
      </rect>
@@ -41,7 +41,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>439</y>
+      <y>429</y>
       <width>110</width>
       <height>32</height>
      </rect>
@@ -53,8 +53,8 @@
    <widget class="QCheckBox" name="saveFrames">
     <property name="geometry">
      <rect>
-      <x>650</x>
-      <y>435</y>
+      <x>699</x>
+      <y>425</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -67,7 +67,7 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>440</y>
+      <y>430</y>
       <width>87</width>
       <height>30</height>
      </rect>
@@ -91,8 +91,8 @@
    <widget class="QLineEdit" name="minValue">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>300</y>
+      <x>809</x>
+      <y>290</y>
       <width>110</width>
       <height>21</height>
      </rect>
@@ -104,8 +104,8 @@
    <widget class="QComboBox" name="segMethod">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>211</y>
+      <x>709</x>
+      <y>201</y>
       <width>87</width>
       <height>30</height>
      </rect>
@@ -127,8 +127,8 @@
    <widget class="QLabel" name="isSrt">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>130</y>
+      <x>709</x>
+      <y>140</y>
       <width>201</width>
       <height>21</height>
      </rect>
@@ -143,8 +143,8 @@
    <widget class="QLabel" name="srtLabel">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>340</y>
+      <x>719</x>
+      <y>330</y>
       <width>72</width>
       <height>15</height>
      </rect>
@@ -159,8 +159,8 @@
    <widget class="QLabel" name="chgLabel">
     <property name="geometry">
      <rect>
-      <x>661</x>
-      <y>380</y>
+      <x>710</x>
+      <y>370</y>
       <width>81</width>
       <height>20</height>
      </rect>
@@ -175,8 +175,8 @@
    <widget class="QLineEdit" name="srtThres">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>340</y>
+      <x>809</x>
+      <y>330</y>
       <width>110</width>
       <height>21</height>
      </rect>
@@ -191,8 +191,8 @@
    <widget class="QLineEdit" name="chgThres">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>380</y>
+      <x>809</x>
+      <y>370</y>
       <width>110</width>
       <height>21</height>
      </rect>
@@ -208,8 +208,8 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>300</y>
-      <width>480</width>
+      <y>370</y>
+      <width>560</width>
       <height>22</height>
      </rect>
     </property>
@@ -220,8 +220,8 @@
    <widget class="QLineEdit" name="maxValue">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>260</y>
+      <x>809</x>
+      <y>250</y>
       <width>110</width>
       <height>21</height>
      </rect>
@@ -233,8 +233,8 @@
    <widget class="QPushButton" name="testButton">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>210</y>
+      <x>809</x>
+      <y>200</y>
       <width>110</width>
       <height>32</height>
      </rect>
@@ -246,8 +246,8 @@
    <widget class="QLabel" name="maxLabel">
     <property name="geometry">
      <rect>
-      <x>670</x>
-      <y>260</y>
+      <x>719</x>
+      <y>250</y>
       <width>72</width>
       <height>20</height>
      </rect>
@@ -262,8 +262,8 @@
    <widget class="QLabel" name="minLabel">
     <property name="geometry">
      <rect>
-      <x>661</x>
-      <y>300</y>
+      <x>710</x>
+      <y>290</y>
       <width>81</width>
       <height>20</height>
      </rect>
@@ -279,18 +279,18 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>20</y>
-      <width>480</width>
-      <height>270</height>
+      <y>30</y>
+      <width>560</width>
+      <height>325</height>
      </rect>
     </property>
    </widget>
    <widget class="QGraphicsView" name="clipView">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>20</y>
-      <width>480</width>
+      <x>625</x>
+      <y>30</y>
+      <width>371</width>
       <height>100</height>
      </rect>
     </property>
@@ -299,8 +299,8 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>490</y>
-      <width>731</width>
+      <y>480</y>
+      <width>791</width>
       <height>23</height>
      </rect>
     </property>
@@ -312,7 +312,7 @@
     <property name="geometry">
      <rect>
       <x>240</x>
-      <y>440</y>
+      <y>430</y>
       <width>87</width>
       <height>30</height>
      </rect>

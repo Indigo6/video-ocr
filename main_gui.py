@@ -36,7 +36,6 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         self.frame_idx = 0
         self.hasOpen = False
 
-
     def open_file(self):
         """
         打开视频，并显示第一帧
@@ -82,6 +81,8 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         box = [[410, None], [100, 800]]
 
     def gen_time(self):
+        if not self.hasOpen:
+            return
         save_frames = self.saveFrames.isChecked()
         seg_method = self.segMethod.itemText(self.segMethod.currentIndex())
         upper_value = self.maxValue.text()
@@ -99,11 +100,15 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         # TODO: 如何获得 box 数据
         box = [[410, None], [100, 800]]
 
-        split_vision(self.video, self.video_path, upper_values, lower_values, seg_method,
-                     box, lang, srt_prob_thres, change_prob_thres, save_frames)
+        split_vision(self.video, self.video_path, upper_values, lower_values, seg_method, box,
+                     self.progressBar, lang, srt_prob_thres, change_prob_thres, save_frames)
+        self.progressBar.setValue(100)
         QMessageBox.information(self, "提示", "时间轴生成成功！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+        self.progressBar.setValue(0)
 
     def gen_sub(self):
+        if not self.hasOpen:
+            return
         box = [[410, None], [100, 800]]
         ocr_method = self.ocrMethod.itemText(self.ocrMethod.currentIndex())
         # lang = ['ch_sim']
@@ -112,8 +117,10 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         # TODO: 自动转成各种OCR需要的缩写
         ocr_reader = OcrReader(ocr_method, lang)
         ass_path = "demo/split_vision.ass"
-        ocr_with_timeline(self.video, box, ocr_reader, ass_path, lang)
+        ocr_with_timeline(self.video, box, ocr_reader, ass_path, lang, self.progressBar)
+        self.progressBar.setValue(100)
         QMessageBox.information(self, "提示", "字幕生成成功！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+        self.progressBar.setValue(0)
 
 
 if __name__ == '__main__':

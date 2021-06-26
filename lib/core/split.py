@@ -105,8 +105,8 @@ def if_srt_changed(last_img, now_img, change_prob_thres):
     return srt_changed
 
 
-def split_vision(video, video_path, upper_value, lower_value, seg_method, box, lang="ch_sim",
-                 srt_prob_thres=1, change_prob_thres=1, output_frame=False):
+def split_vision(video, video_path, upper_value, lower_value, seg_method, box, progress_bar,
+                 lang="ch_sim", srt_prob_thres=1, change_prob_thres=1, output_frame=False):
     print("------Split by vision-----")
 
     video.set(cv.CAP_PROP_POS_FRAMES, 1)  # 设置要获取的帧号
@@ -188,14 +188,15 @@ def split_vision(video, video_path, upper_value, lower_value, seg_method, box, l
                                    last_srt_seg_frame)
                 srt_count += 1
                 fc_start = 0
-        
+
+        progress_bar.setValue(int(fc / frames_num * 100) + 1)
+        # progress_bar.format(Q)
         elapsed = time.time() - time_start
         eta = (frames_num - fc) * elapsed / fc if fc > 0 else 0
         print('[%d/%d] Elapsed: %s, ETA: %s' % (fc, frames_num,
                                                 fmt_time(elapsed),
                                                 fmt_time(eta)))
     subs.save('demo/split_vision.ass')
-
 
 
 if __name__ == "__main__":
