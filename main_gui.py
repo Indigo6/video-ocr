@@ -125,8 +125,14 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
     def test_seg(self):
         if not self.hasOpen:
             return
-        # TODO: 如何获得 box 数据
-        box = [[410, None], [100, 800]]
+
+        rec_pos = self.videoView.rect.getRect()
+        video_height = self.videoView.my_scene.height()
+        frame_height = self.frame.shape[0]
+        vf_ratio = frame_height/video_height
+
+        box = [[int(rec_pos[1]*vf_ratio), int((rec_pos[1]+rec_pos[3])*vf_ratio)],
+               [int(rec_pos[0]*vf_ratio), int((rec_pos[0]+rec_pos[2])*vf_ratio)]]
 
         srt_prob_thres = float(self.srtThres.text())
         seg_method = self.segMethod.itemText(self.segMethod.currentIndex())
@@ -165,8 +171,13 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         lang_box_text = self.langBox.itemText(self.langBox.currentIndex())
         lang = [lang_box_text] if lang_box_text != "dual" else ['ch_sim', 'en']
 
-        # TODO: 如何获得 box 数据
-        box = [[410, None], [100, 800]]
+        rec_pos = self.videoView.rect.getRect()
+        video_height = self.videoView.my_scene.height()
+        frame_height = self.frame.shape[0]
+        vf_ratio = frame_height / video_height
+
+        box = [[int(rec_pos[1] * vf_ratio), int((rec_pos[1] + rec_pos[3]) * vf_ratio)],
+               [int(rec_pos[0] * vf_ratio), int((rec_pos[0] + rec_pos[2]) * vf_ratio)]]
 
         # split_vision(self.video, self.video_path, upper_values, lower_values, seg_method, box,
         #              self.progressBar, lang, srt_prob_thres, change_prob_thres, save_frames)
@@ -177,7 +188,14 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
     def gen_sub(self):
         if not self.hasOpen:
             return
-        box = [[410, None], [160, 760]]
+        rec_pos = self.videoView.rect.getRect()
+        video_height = self.videoView.my_scene.height()
+        frame_height = self.frame.shape[0]
+        vf_ratio = frame_height / video_height
+
+        box = [[int(rec_pos[1] * vf_ratio), int((rec_pos[1] + rec_pos[3]) * vf_ratio)],
+               [int(rec_pos[0] * vf_ratio), int((rec_pos[0] + rec_pos[2]) * vf_ratio)]]
+
         ocr_method = self.ocrMethod.itemText(self.ocrMethod.currentIndex())
         # lang = ['ch_sim']
         lang_box_text = self.langBox.itemText(self.langBox.currentIndex())

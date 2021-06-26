@@ -87,6 +87,7 @@ class MyGraphicsView(QGraphicsView):
         print('start:[{}, {}]'.format(self.start[0], self.start[1]))
         print('end:[{}, {}]'.format(self.end[0], self.end[1]))
         print(self.rect.getRect())
+        
         self.drawing = False
 
 
