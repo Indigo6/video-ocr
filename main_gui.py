@@ -25,6 +25,7 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         # 打开文件的项
         self.openFile.triggered.connect(self.open_file)
         self.videoBar.sliderMoved.connect(self.video_bar)
+        self.videoBar.sliderReleased.connect(self.video_bar)
 
         # 参数配置项
         self.colorButton1.clicked.connect(self.upper_color)
@@ -88,7 +89,8 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         bar_max = self.videoBar.maximum()
         bar_pos = self.videoBar.value()
         bar_ratio = (bar_pos - bar_min) / (bar_max - bar_min)
-        self.frame_idx = int(self.video_total_frame * bar_ratio)
+        self.frame_idx = min(self.video_total_frame - 1, int(self.video_total_frame * bar_ratio))
+        self.frame_idx = max(0, self.frame_idx)
         self.video.set(cv.CAP_PROP_POS_FRAMES, self.frame_idx)  # 设置要获取的帧号
         _, self.frame = self.video.read()
         if self.videoView.old_img_item:
@@ -132,12 +134,18 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         rec_pos = self.videoView.rect.getRect()
         if sum(rec_pos) == 0:
             return
-        video_height = self.videoView.my_scene.height()
+        view_height = self.videoView.my_scene.height()
+        view_width = self.videoView.my_scene.width()
         frame_height = self.frame.shape[0]
-        vf_ratio = frame_height/video_height
+        frame_width = self.frame.shape[1]
+        vid_x = self.videoView.old_img_item.x()
+        vid_y = self.videoView.old_img_item.y()
 
-        box = [[int(rec_pos[1]*vf_ratio), int((rec_pos[1]+rec_pos[3])*vf_ratio)],
-               [int(rec_pos[0]*vf_ratio), int((rec_pos[0]+rec_pos[2])*vf_ratio)]]
+        h_ratio = frame_height / (view_height - 2 * vid_y)
+        w_ratio = frame_width / (view_width - 2 * vid_x)
+
+        box = [[int((rec_pos[1]-vid_y)*h_ratio), int((rec_pos[1]+rec_pos[3]-vid_y)*h_ratio)],
+               [int((rec_pos[0]-vid_x)*w_ratio), int((rec_pos[0]+rec_pos[2]-vid_x)*w_ratio)]]
 
         srt_prob_thres = float(self.srtThres.text())
         seg_method = self.segMethod.itemText(self.segMethod.currentIndex())
@@ -178,12 +186,18 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         rec_pos = self.videoView.rect.getRect()
         if sum(rec_pos) == 0:
             return
-        video_height = self.videoView.my_scene.height()
+        view_height = self.videoView.my_scene.height()
+        view_width = self.videoView.my_scene.width()
         frame_height = self.frame.shape[0]
-        vf_ratio = frame_height / video_height
+        frame_width = self.frame.shape[1]
+        vid_x = self.videoView.old_img_item.x()
+        vid_y = self.videoView.old_img_item.y()
 
-        box = [[int(rec_pos[1] * vf_ratio), int((rec_pos[1] + rec_pos[3]) * vf_ratio)],
-               [int(rec_pos[0] * vf_ratio), int((rec_pos[0] + rec_pos[2]) * vf_ratio)]]
+        h_ratio = frame_height / (view_height - 2 * vid_y)
+        w_ratio = frame_width / (view_width - 2 * vid_x)
+
+        box = [[int((rec_pos[1] - vid_y) * h_ratio), int((rec_pos[1] + rec_pos[3] - vid_y) * h_ratio)],
+               [int((rec_pos[0] - vid_x) * w_ratio), int((rec_pos[0] + rec_pos[2] - vid_x) * w_ratio)]]
 
         # split_vision(self.video, self.video_path, upper_values, lower_values, seg_method, box,
         #              self.progressBar, lang, srt_prob_thres, change_prob_thres, save_frames)
@@ -194,15 +208,22 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
     def gen_sub(self):
         if not self.hasOpen:
             return
+
         rec_pos = self.videoView.rect.getRect()
         if sum(rec_pos) == 0:
             return
-        video_height = self.videoView.my_scene.height()
+        view_height = self.videoView.my_scene.height()
+        view_width = self.videoView.my_scene.width()
         frame_height = self.frame.shape[0]
-        vf_ratio = frame_height / video_height
+        frame_width = self.frame.shape[1]
+        vid_x = self.videoView.old_img_item.x()
+        vid_y = self.videoView.old_img_item.y()
 
-        box = [[int(rec_pos[1] * vf_ratio), int((rec_pos[1] + rec_pos[3]) * vf_ratio)],
-               [int(rec_pos[0] * vf_ratio), int((rec_pos[0] + rec_pos[2]) * vf_ratio)]]
+        h_ratio = frame_height / (view_height - 2 * vid_y)
+        w_ratio = frame_width / (view_width - 2 * vid_x)
+
+        box = [[int((rec_pos[1] - vid_y) * h_ratio), int((rec_pos[1] + rec_pos[3] - vid_y) * h_ratio)],
+               [int((rec_pos[0] - vid_x) * w_ratio), int((rec_pos[0] + rec_pos[2] - vid_x) * w_ratio)]]
 
         ocr_method = self.ocrMethod.itemText(self.ocrMethod.currentIndex())
         # lang = ['ch_sim']
