@@ -99,7 +99,6 @@ def ocr_with_timeline(video, box, ocr_reader, ass_path, lang=['ch_sim']):
                 subtitle = ''.join(result)
                 subs[i].text = re.findall(re_chinese, subtitle)[0]
 
-            # TODO: 双语字幕
             i += len(lang)
 
         count += len(lang)
