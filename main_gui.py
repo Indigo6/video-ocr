@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import (QApplication, QFileDialog, QMessageBox,
 
 from gui import *
 from lib.core.split import split_vision
-from lib.utils import get_image_view, ocr_with_timeline
+from lib.utils import get_image_view, ocr_with_timeline, OcrReader
 
 
 class MyWindow(QMainWindow, Ui_VideoOCR):
@@ -35,6 +35,7 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         self.video_total_frame = 0
         self.frame_idx = 0
         self.hasOpen = False
+
 
     def open_file(self):
         """
@@ -78,6 +79,7 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
 
     def test_seg(self):
         print(self.video_path, "todo")
+        box = [[410, None], [100, 800]]
 
     def gen_time(self):
         save_frames = self.saveFrames.isChecked()
@@ -101,7 +103,13 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         QMessageBox.information(self, "提示", "时间轴生成成功！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
 
     def gen_sub(self):
-        ocr_with_timeline(self.video)
+        box = [[410, None], [100, 800]]
+        ocr_method = self.ocrMethod.itemText(self.ocrMethod.currentIndex())
+        lang = ['ch_sim']
+        ocr_reader = OcrReader(ocr_method, lang)
+        ass_path = "demo/split_vision.ass"
+        ocr_with_timeline(self.video, box, ocr_reader, ass_path, lang)
+        QMessageBox.information(self, "提示", "字幕生成成功！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
 
 
 if __name__ == '__main__':

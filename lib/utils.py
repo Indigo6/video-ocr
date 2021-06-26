@@ -15,16 +15,15 @@ from qimage2ndarray import array2qimage
 
 
 class OcrReader:
-    def __init__(self, cfg):
-        self.cfg = cfg
-        self.method = cfg.OCR_METHOD
-        if cfg.OCR_METHOD == "easy":
+    def __init__(self, ocr_method, lang):
+        self.method = ocr_method
+        if self.method == "easy":
             import easyocr
-            self.model = easyocr.Reader(cfg.LANG)
-        elif cfg.OCR_METHOD == "paddle":
+            self.model = easyocr.Reader(lang)
+        elif self.method == "paddle":
             from paddleocr import PaddleOCR
             self.model = PaddleOCR(use_angle_cls=True, lang="ch")
-        elif cfg.OCR_METHOD == "online":
+        elif self.method == "online":
             # 百度 API 的 API key 和 Secret key
             self.access_token = get_access_token('baidu_keys.txt')
 
@@ -34,23 +33,23 @@ class OcrReader:
 
     def ocr(self, img):
         content = []
-        if self.cfg.OCR_METHOD == "easy":
+        if self.method == "easy":
             result = self.model.readtext(img)
             for roi in result:
                 content.append(roi[1])
-        elif self.cfg.OCR_METHOD == "paddle":
+        elif self.method == "paddle":
             result = self.model.ocr(img)
             for roi in result:
                 content.append(roi[1][0])
-        elif self.cfg.OCR_METHOD == "online":
+        elif self.method == "online":
             result = ocr_baidu_http(img, self.access_token)
             for item in result:
                 content.append(item['words'])
         return content
 
 
-def ocr_with_timeline(video, box, ocr_reader, ass_path, lang='ch_sim'):
-    box = [box[:2], box[2:]]
+def ocr_with_timeline(video, box, ocr_reader, ass_path, lang=['ch_sim']):
+    #box = [box[:2], box[2:]]
     fps = video.get(5)
     subs = SSAFile.load(ass_path)
 

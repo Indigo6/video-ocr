@@ -109,7 +109,7 @@ def split_vision(video, video_path, upper_value, lower_value, seg_method, box, l
                  srt_prob_thres=1, change_prob_thres=1, output_frame=False):
     print("------Split by vision-----")
 
-    video.set(cv.CAP_PROP_POS_FRAMES, 0)  # 设置要获取的帧号
+    video.set(cv.CAP_PROP_POS_FRAMES, 1)  # 设置要获取的帧号
     output_segged_frame = True
     _, video_name = os.path.split(video_path)
     video_name = video_name.split('.')[0]
@@ -195,7 +195,7 @@ def split_vision(video, video_path, upper_value, lower_value, seg_method, box, l
                                                 fmt_time(elapsed),
                                                 fmt_time(eta)))
     subs.save('demo/split_vision.ass')
-    video.release()
+
 
 
 if __name__ == "__main__":
