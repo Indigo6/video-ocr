@@ -57,6 +57,7 @@ class MyGraphicsView(QGraphicsView):
         self.start = [0, 0]
         self.end = [0, 0]
         self.my_scene = QGraphicsScene()
+        self.my_scene.setSceneRect(QRectF(0, 0, 544, 306))
         self.rect = QRectF()
         self.old_rect_item = None
         self.old_img_item = None
@@ -65,13 +66,11 @@ class MyGraphicsView(QGraphicsView):
     def mousePressEvent(self, event):
         self.start = [event.x(), event.y()]
         self.drawing = True
-        print('start:[{}, {}]'.format(self.start[0], self.start[1]))
 
     def mouseMoveEvent(self, event):
         if not self.drawing:
             return
         self.end = [event.x(), event.y()]
-        print('end:[{}, {}]'.format(self.end[0], self.end[1]))
 
         temp_start = [min(self.start[0], self.end[0]), min(self.start[1], self.end[1])]
         temp_end = [max(self.start[0], self.end[0]), max(self.start[1], self.end[1])]
@@ -85,6 +84,9 @@ class MyGraphicsView(QGraphicsView):
 
     # 释放鼠标
     def mouseReleaseEvent(self, event):
+        print('start:[{}, {}]'.format(self.start[0], self.start[1]))
+        print('end:[{}, {}]'.format(self.end[0], self.end[1]))
+        print(self.rect.getRect())
         self.drawing = False
 
 
@@ -319,11 +321,11 @@ def cv_to_qt(img):
 
 
 def get_image_view(scene, img_view, image):
-    width = img_view.width()
-    height = img_view.height()
+    width = scene.width()
+    height = scene.height()
     row, col = image.shape[1], image.shape[0]
-    a = float((width - 10) / row)
-    b = float((height - 5) / col)
+    a = float(width / row)
+    b = float(height / col)
     if a < b:
         scale = a
     else:
