@@ -21,7 +21,7 @@
 
 ## 用法
 
-3. 运行 `python main_gui.py`
+1. 运行 `python main_gui.py`
 
 ## TODO
 
