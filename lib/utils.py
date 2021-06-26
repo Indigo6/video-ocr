@@ -74,15 +74,16 @@ class MyGraphicsView(QGraphicsView):
 
         temp_start = [min(self.start[0], self.end[0]), min(self.start[1], self.end[1])]
         temp_end = [max(self.start[0], self.end[0]), max(self.start[1], self.end[1])]
-        self.start = temp_start
-        self.end = temp_end
+        #self.start = temp_start
+        #self.end = temp_end
 
         scene = self.scene()
         if not scene:
             scene = QGraphicsScene()
         if self.old_rect_item:
             scene.removeItem(self.old_rect_item)
-        self.rect.setRect(self.start[0], self.start[1], self.end[0] - self.start[0], self.end[1] - self.start[1])
+
+        self.rect.setRect(temp_start[0], temp_start[1], temp_end[0] - temp_start[0], temp_end[1] - temp_start[1])
         self.old_rect_item = scene.addRect(self.rect, QPen(Qt.red, 3, Qt.SolidLine))
         self.setScene(scene)
 
