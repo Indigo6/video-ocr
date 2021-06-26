@@ -338,4 +338,12 @@ def get_image_view(scene, img_view, image):
 
     # 将图片放入图片显示窗口
     img_item = scene.addPixmap(QPixmap.fromImage(show_img))
+
+    width = img_item.boundingRect().getRect()[2]
+    height = img_item.boundingRect().getRect()[3]
+    scene_width = img_view.my_scene.width()
+    scene_height = img_view.my_scene.height()
+
+    img_item.setX((scene_width - width) / 2)
+    img_item.setY((scene_height - height) / 2)
     return img_item
