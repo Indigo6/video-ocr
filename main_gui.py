@@ -1,3 +1,4 @@
+import os
 import sys
 
 import cv2 as cv
@@ -8,7 +9,7 @@ from PyQt5.QtWidgets import (QApplication, QFileDialog, QMessageBox,
 
 from gui import *
 from lib.core.split import split_vision
-from lib.utils import get_image_view, ocr_with_timeline, OcrReader
+from lib.utils import get_image_view, ocr_with_timeline, OcrReader, check_dir
 
 
 class MyWindow(QMainWindow, Ui_VideoOCR):
@@ -35,6 +36,8 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         self.video_total_frame = 0
         self.frame_idx = 0
         self.hasOpen = False
+
+        check_dir()
 
     def open_file(self):
         """
@@ -116,7 +119,7 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         lang = [lang_box_text] if lang_box_text != "dual" else ['ch_sim', 'en']
         # TODO: 自动转成各种OCR需要的缩写
         ocr_reader = OcrReader(ocr_method, lang)
-        ass_path = "demo/split_vision.ass"
+        ass_path = "output/split_vision.ass"
         ocr_with_timeline(self.video, box, ocr_reader, ass_path, lang, self.progressBar)
         self.progressBar.setValue(100)
         QMessageBox.information(self, "提示", "字幕生成成功！", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)

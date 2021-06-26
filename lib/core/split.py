@@ -6,7 +6,7 @@ import os
 import cv2 as cv
 import numpy as np
 
-from lib.utils import fmt_time
+from lib.utils import fmt_time, get_empty_sub
 from pysubs2 import SSAFile, SSAEvent, make_time
 
 
@@ -122,7 +122,8 @@ def split_vision(video, video_path, upper_value, lower_value, seg_method, box, p
     frames_num = video.get(7)
     fps = video.get(5)
 
-    subs = SSAFile.load('demo/empty.ass')
+    # subs = SSAFile.load('demo/empty.ass')
+    subs = get_empty_sub()
 
     fc = 0
     srt_count = 0
@@ -196,7 +197,7 @@ def split_vision(video, video_path, upper_value, lower_value, seg_method, box, p
         print('[%d/%d] Elapsed: %s, ETA: %s' % (fc, frames_num,
                                                 fmt_time(elapsed),
                                                 fmt_time(eta)))
-    subs.save('demo/split_vision.ass')
+    subs.save('output/split_vision.ass')
 
 
 if __name__ == "__main__":

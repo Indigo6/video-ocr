@@ -1,5 +1,6 @@
 import argparse
 import base64
+import os
 import re
 import requests
 import sys
@@ -118,6 +119,24 @@ def parse_args():
                         type=str)
     args = parser.parse_args()
     return args
+
+
+def check_dir():
+    if not os.path.exists('frame'):
+        os.mkdir('frame')
+    if not os.path.exists('output'):
+        os.mkdir('output')
+
+
+def get_empty_sub():
+    text = '''
+               1
+               00:00:00,000 --> 00:00:05,000
+               An example SubRip file.
+           '''
+    subs = SSAFile.from_string(text)
+    subs.__delitem__(0)
+    return subs
 
 
 # 用于对输出任务进度中的时间进行格式化
