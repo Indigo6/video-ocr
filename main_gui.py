@@ -66,8 +66,13 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
 
         # 缩放图像为适应窗口的大小
         # 获得缩放比例
-        scene = get_image_view(self.videoView, self.frame)
-        self.videoView.setScene(scene)
+        if self.videoView.old_img_item:
+            self.videoView.my_scene.removeItem(self.videoView.old_img_item)
+        self.videoView.old_img_item = get_image_view(self.videoView.my_scene, self.videoView, self.frame)
+        if self.videoView.old_rect_item:
+            self.videoView.my_scene.removeItem(self.videoView.old_rect_item)
+            self.videoView.my_scene.addItem(self.videoView.old_rect_item)
+        self.videoView.setScene(self.videoView.my_scene)
         self.hasOpen = True
 
     def video_bar(self):
@@ -83,8 +88,13 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         self.frame_idx = int(self.video_total_frame * bar_ratio)
         self.video.set(cv.CAP_PROP_POS_FRAMES, self.frame_idx)  # 设置要获取的帧号
         _, self.frame = self.video.read()
-        scene = get_image_view(self.videoView, self.frame)
-        self.videoView.setScene(scene)
+        if self.videoView.old_img_item:
+            self.videoView.my_scene.removeItem(self.videoView.old_img_item)
+        self.videoView.old_img_item = get_image_view(self.videoView.my_scene, self.videoView, self.frame)
+        if self.videoView.old_rect_item:
+            self.videoView.my_scene.removeItem(self.videoView.old_rect_item)
+            self.videoView.my_scene.addItem(self.videoView.old_rect_item)
+        self.videoView.setScene(self.videoView.my_scene)
 
     def upper_color(self):
         col = QColorDialog.getColor()
@@ -129,8 +139,10 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         frame_seg, has_srt = if_srt_frame(clipped_frame, upper_values, lower_values, seg_method, srt_prob_thres)
         # 缩放图像为适应窗口的大小
         # 获得缩放比例
-        scene = get_image_view(self.clipView, frame_seg)
-        self.clipView.setScene(scene)
+        if self.clipView.old_img_item:
+            self.clipView.my_scene.removeItem(self.clipView.old_img_item)
+        self.clipView.old_img_item = get_image_view(self.clipView.my_scene, self.clipView, frame_seg)
+        self.clipView.setScene(self.clipView.my_scene)
         if has_srt:
             self.isSrt.setText('检测结果: 该帧包含字幕')
         else:

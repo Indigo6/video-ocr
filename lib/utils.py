@@ -11,11 +11,10 @@ import cv2 as cv
 
 from paddleocr import PaddleOCR
 from pysubs2 import SSAFile
-from PyQt5 import QtGui, QtCore
 from PyQt5.Qt import QPixmap
 from PyQt5.QtWidgets import QGraphicsScene, QMessageBox, QGraphicsView
 from PyQt5.QtCore import Qt, QRectF
-from PyQt5.QtGui import QPainter, QPen
+from PyQt5.QtGui import QPen, QImage
 from qimage2ndarray import array2qimage
 
 
@@ -57,8 +56,10 @@ class MyGraphicsView(QGraphicsView):
         self.widget = central_widget
         self.start = [0, 0]
         self.end = [0, 0]
+        self.my_scene = QGraphicsScene()
         self.rect = QRectF()
         self.old_rect_item = None
+        self.old_img_item = None
         self.drawing = False
 
     def mousePressEvent(self, event):
@@ -74,18 +75,13 @@ class MyGraphicsView(QGraphicsView):
 
         temp_start = [min(self.start[0], self.end[0]), min(self.start[1], self.end[1])]
         temp_end = [max(self.start[0], self.end[0]), max(self.start[1], self.end[1])]
-        #self.start = temp_start
-        #self.end = temp_end
 
-        scene = self.scene()
-        if not scene:
-            scene = QGraphicsScene()
         if self.old_rect_item:
-            scene.removeItem(self.old_rect_item)
+            self.my_scene.removeItem(self.old_rect_item)
 
         self.rect.setRect(temp_start[0], temp_start[1], temp_end[0] - temp_start[0], temp_end[1] - temp_start[1])
-        self.old_rect_item = scene.addRect(self.rect, QPen(Qt.red, 3, Qt.SolidLine))
-        self.setScene(scene)
+        self.old_rect_item = self.my_scene.addRect(self.rect, QPen(Qt.red, 3, Qt.SolidLine))
+        self.setScene(self.my_scene)
 
     # 释放鼠标
     def mouseReleaseEvent(self, event):
@@ -313,8 +309,8 @@ def cv_to_qt(img):
             rgb_img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
             # rgb_img.shape[1]*rgb_img.shape[2]这一句时用来解决扭曲的问题
             # 详情参考 https://blog.csdn.net/owen7500/article/details/50905659 这篇博客
-            image = QtGui.QImage(rgb_img, rgb_img.shape[1], rgb_img.shape[0],
-                                 rgb_img.shape[1] * rgb_img.shape[2], QtGui.QImage.Format_RGB888)
+            image = QImage(rgb_img, rgb_img.shape[1], rgb_img.shape[0],
+                           rgb_img.shape[1] * rgb_img.shape[2], QImage.Format_RGB888)
         elif img.shape[2] == 4:
             # 读入为RGBA的时候
             rgba_img = cv.cvtColor(img, cv.COLOR_BGRA2RGBA)
@@ -322,7 +318,7 @@ def cv_to_qt(img):
     return image
 
 
-def get_image_view(img_view, image):
+def get_image_view(scene, img_view, image):
     width = img_view.width()
     height = img_view.height()
     row, col = image.shape[1], image.shape[0]
@@ -339,6 +335,5 @@ def get_image_view(img_view, image):
     show_img = cv_to_qt(resized_frame)
 
     # 将图片放入图片显示窗口
-    scene = QGraphicsScene()
-    scene.addPixmap(QPixmap.fromImage(show_img))
-    return scene
+    img_item = scene.addPixmap(QPixmap.fromImage(show_img))
+    return img_item

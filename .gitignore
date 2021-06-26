@@ -91,4 +91,5 @@ input
 .vscode
 test.py
 main.bat
+gui_copy.py
 
