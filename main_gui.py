@@ -92,8 +92,9 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         srt_prob_thres = float(self.srtThres.text())
         change_prob_thres = float(self.chgThres.text())
 
-        # TODO: 增加语言选择选项
-        lang = 'ch_sim'
+        # lang = 'ch_sim'
+        lang_box_text = self.langBox.itemText(self.langBox.currentIndex())
+        lang = [lang_box_text] if lang_box_text != "dual" else ['ch_sim', 'en']
 
         # TODO: 如何获得 box 数据
         box = [[410, None], [100, 800]]
@@ -105,7 +106,10 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
     def gen_sub(self):
         box = [[410, None], [100, 800]]
         ocr_method = self.ocrMethod.itemText(self.ocrMethod.currentIndex())
-        lang = ['ch_sim']
+        # lang = ['ch_sim']
+        lang_box_text = self.langBox.itemText(self.langBox.currentIndex())
+        lang = [lang_box_text] if lang_box_text != "dual" else ['ch_sim', 'en']
+        # TODO: 自动转成各种OCR需要的缩写
         ocr_reader = OcrReader(ocr_method, lang)
         ass_path = "demo/split_vision.ass"
         ocr_with_timeline(self.video, box, ocr_reader, ass_path, lang)
