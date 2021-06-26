@@ -18,6 +18,9 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         super(MyWindow, self).__init__(parent)
         self.setupUi(self)
 
+        self.videoView.my_scene.setSceneRect(0, 0, 544, 306)
+        self.clipView.my_scene.setSceneRect(0, 0, 922, 99)
+
         # 注册监听
         # 打开文件的项
         self.openFile.triggered.connect(self.open_file)

@@ -57,7 +57,6 @@ class MyGraphicsView(QGraphicsView):
         self.start = [0, 0]
         self.end = [0, 0]
         self.my_scene = QGraphicsScene()
-        self.my_scene.setSceneRect(QRectF(0, 0, 544, 306))
         self.rect = QRectF()
         self.old_rect_item = None
         self.old_img_item = None
