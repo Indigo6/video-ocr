@@ -130,6 +130,8 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
             return
 
         rec_pos = self.videoView.rect.getRect()
+        if sum(rec_pos) == 0:
+            return
         video_height = self.videoView.my_scene.height()
         frame_height = self.frame.shape[0]
         vf_ratio = frame_height/video_height
@@ -174,6 +176,8 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         lang = [lang_box_text] if lang_box_text != "dual" else ['ch_sim', 'en']
 
         rec_pos = self.videoView.rect.getRect()
+        if sum(rec_pos) == 0:
+            return
         video_height = self.videoView.my_scene.height()
         frame_height = self.frame.shape[0]
         vf_ratio = frame_height / video_height
@@ -191,6 +195,8 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         if not self.hasOpen:
             return
         rec_pos = self.videoView.rect.getRect()
+        if sum(rec_pos) == 0:
+            return
         video_height = self.videoView.my_scene.height()
         frame_height = self.frame.shape[0]
         vf_ratio = frame_height / video_height

@@ -43,13 +43,13 @@ def color_seg(img, upper_value, lower_value, seg_method, srt_prob_thres=1):
 
 def if_srt_frame(img, upper_value, lower_value, seg_method, srt_prob_thres=1):
     frame_segged, has_srt = color_seg(img, upper_value, lower_value, seg_method, srt_prob_thres)
-    if has_srt:
-        imgray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-        thresh = 200
-        ret, binary = cv.threshold(imgray, thresh, 255, cv.THRESH_BINARY)  # 输入灰度图，输出二值图
-        srt_prob = (binary**2).sum() / binary.size
-        if srt_prob > 0.3:
-            has_srt = False
+    # if has_srt:
+    #     imgray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    #     thresh = 200
+    #     ret, binary = cv.threshold(imgray, thresh, 255, cv.THRESH_BINARY)  # 输入灰度图，输出二值图
+    #     srt_prob = (binary**2).sum() / binary.size
+    #     if srt_prob > 0.3:
+    #         has_srt = False
     return frame_segged, has_srt
 
 
