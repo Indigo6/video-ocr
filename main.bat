@@ -1,0 +1,1 @@
+C:\ProgramData\Anaconda3\envs\ocr\python.exe main_gui.py

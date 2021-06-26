@@ -1,5 +1,6 @@
 import argparse
 import base64
+import easyocr
 import os
 import re
 import requests
@@ -8,6 +9,7 @@ import time
 
 import cv2 as cv
 
+from paddleocr import PaddleOCR
 from pysubs2 import SSAFile
 from PyQt5 import QtGui
 from PyQt5.Qt import QPixmap
@@ -19,10 +21,8 @@ class OcrReader:
     def __init__(self, ocr_method, lang):
         self.method = ocr_method
         if self.method == "easy":
-            import easyocr
             self.model = easyocr.Reader(lang)
         elif self.method == "paddle":
-            from paddleocr import PaddleOCR
             self.model = PaddleOCR(use_angle_cls=False, lang="ch")
         elif self.method == "online":
             # 百度 API 的 API key 和 Secret key

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1013</width>
+    <width>981</width>
     <height>579</height>
    </rect>
   </property>
@@ -22,9 +22,9 @@
    <widget class="QPushButton" name="genTime">
     <property name="geometry">
      <rect>
-      <x>809</x>
-      <y>429</y>
-      <width>110</width>
+      <x>820</x>
+      <y>250</y>
+      <width>87</width>
       <height>32</height>
      </rect>
     </property>
@@ -40,9 +40,9 @@
    <widget class="QPushButton" name="genSub">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>429</y>
-      <width>110</width>
+      <x>820</x>
+      <y>339</y>
+      <width>87</width>
       <height>32</height>
      </rect>
     </property>
@@ -53,8 +53,8 @@
    <widget class="QCheckBox" name="saveFrames">
     <property name="geometry">
      <rect>
-      <x>699</x>
-      <y>425</y>
+      <x>620</x>
+      <y>246</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -66,8 +66,8 @@
    <widget class="QComboBox" name="ocrMethod">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>430</y>
+      <x>620</x>
+      <y>340</y>
       <width>87</width>
       <height>30</height>
      </rect>
@@ -91,8 +91,8 @@
    <widget class="QLineEdit" name="minValue">
     <property name="geometry">
      <rect>
-      <x>809</x>
-      <y>290</y>
+      <x>719</x>
+      <y>111</y>
       <width>110</width>
       <height>21</height>
      </rect>
@@ -104,8 +104,8 @@
    <widget class="QComboBox" name="segMethod">
     <property name="geometry">
      <rect>
-      <x>709</x>
-      <y>201</y>
+      <x>730</x>
+      <y>20</y>
       <width>87</width>
       <height>30</height>
      </rect>
@@ -127,9 +127,9 @@
    <widget class="QLabel" name="isSrt">
     <property name="geometry">
      <rect>
-      <x>709</x>
-      <y>140</y>
-      <width>201</width>
+      <x>400</x>
+      <y>500</y>
+      <width>200</width>
       <height>21</height>
      </rect>
     </property>
@@ -143,8 +143,8 @@
    <widget class="QLabel" name="srtLabel">
     <property name="geometry">
      <rect>
-      <x>719</x>
-      <y>330</y>
+      <x>629</x>
+      <y>151</y>
       <width>72</width>
       <height>15</height>
      </rect>
@@ -159,8 +159,8 @@
    <widget class="QLabel" name="chgLabel">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>370</y>
+      <x>620</x>
+      <y>191</y>
       <width>81</width>
       <height>20</height>
      </rect>
@@ -175,8 +175,8 @@
    <widget class="QLineEdit" name="srtThres">
     <property name="geometry">
      <rect>
-      <x>809</x>
-      <y>330</y>
+      <x>719</x>
+      <y>151</y>
       <width>110</width>
       <height>21</height>
      </rect>
@@ -191,8 +191,8 @@
    <widget class="QLineEdit" name="chgThres">
     <property name="geometry">
      <rect>
-      <x>809</x>
-      <y>370</y>
+      <x>719</x>
+      <y>191</y>
       <width>110</width>
       <height>21</height>
      </rect>
@@ -208,7 +208,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>370</y>
+      <y>350</y>
       <width>560</width>
       <height>22</height>
      </rect>
@@ -220,8 +220,8 @@
    <widget class="QLineEdit" name="maxValue">
     <property name="geometry">
      <rect>
-      <x>809</x>
-      <y>250</y>
+      <x>719</x>
+      <y>71</y>
       <width>110</width>
       <height>21</height>
      </rect>
@@ -233,9 +233,9 @@
    <widget class="QPushButton" name="testButton">
     <property name="geometry">
      <rect>
-      <x>809</x>
-      <y>200</y>
-      <width>110</width>
+      <x>720</x>
+      <y>250</y>
+      <width>87</width>
       <height>32</height>
      </rect>
     </property>
@@ -246,8 +246,8 @@
    <widget class="QLabel" name="maxLabel">
     <property name="geometry">
      <rect>
-      <x>719</x>
-      <y>250</y>
+      <x>629</x>
+      <y>71</y>
       <width>72</width>
       <height>20</height>
      </rect>
@@ -262,8 +262,8 @@
    <widget class="QLabel" name="minLabel">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>290</y>
+      <x>620</x>
+      <y>111</y>
       <width>81</width>
       <height>20</height>
      </rect>
@@ -279,7 +279,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>30</y>
+      <y>20</y>
       <width>560</width>
       <height>325</height>
      </rect>
@@ -288,9 +288,9 @@
    <widget class="QGraphicsView" name="clipView">
     <property name="geometry">
      <rect>
-      <x>625</x>
-      <y>30</y>
-      <width>371</width>
+      <x>20</x>
+      <y>390</y>
+      <width>931</width>
       <height>100</height>
      </rect>
     </property>
@@ -298,9 +298,9 @@
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>480</y>
-      <width>791</width>
+      <x>620</x>
+      <y>300</y>
+      <width>321</width>
       <height>23</height>
      </rect>
     </property>
@@ -311,8 +311,8 @@
    <widget class="QComboBox" name="langBox">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>430</y>
+      <x>720</x>
+      <y>340</y>
       <width>87</width>
       <height>30</height>
      </rect>
@@ -333,13 +333,39 @@
      </property>
     </item>
    </widget>
+   <widget class="QPushButton" name="colorButton1">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>70</y>
+      <width>71</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>调色板</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="colorButton2">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>110</y>
+      <width>71</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>调色板</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1013</width>
+     <width>981</width>
      <height>26</height>
     </rect>
    </property>

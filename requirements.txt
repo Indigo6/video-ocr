@@ -3,9 +3,7 @@ easyocr
 numpy
 opencv-python
 paddleocr
-pillow
 pyqt5
 pysubs2
 qimage2ndarray
 requests
-yacs
