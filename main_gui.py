@@ -165,7 +165,7 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
     def gen_sub(self):
         if not self.hasOpen:
             return
-        box = [[410, None], [100, 800]]
+        box = [[410, None], [160, 760]]
         ocr_method = self.ocrMethod.itemText(self.ocrMethod.currentIndex())
         # lang = ['ch_sim']
         lang_box_text = self.langBox.itemText(self.langBox.currentIndex())

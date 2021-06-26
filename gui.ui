@@ -22,9 +22,9 @@
    <widget class="QPushButton" name="genTime">
     <property name="geometry">
      <rect>
-      <x>820</x>
-      <y>250</y>
-      <width>87</width>
+      <x>840</x>
+      <y>230</y>
+      <width>100</width>
       <height>32</height>
      </rect>
     </property>
@@ -40,9 +40,9 @@
    <widget class="QPushButton" name="genSub">
     <property name="geometry">
      <rect>
-      <x>820</x>
-      <y>339</y>
-      <width>87</width>
+      <x>840</x>
+      <y>320</y>
+      <width>100</width>
       <height>32</height>
      </rect>
     </property>
@@ -53,22 +53,25 @@
    <widget class="QCheckBox" name="saveFrames">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>246</y>
-      <width>101</width>
-      <height>41</height>
+      <x>630</x>
+      <y>225</y>
+      <width>71</width>
+      <height>40</height>
      </rect>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
     <property name="text">
-     <string>保存字幕帧</string>
+     <string>保存帧</string>
     </property>
    </widget>
    <widget class="QComboBox" name="ocrMethod">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>340</y>
-      <width>87</width>
+      <x>720</x>
+      <y>320</y>
+      <width>100</width>
       <height>30</height>
      </rect>
     </property>
@@ -91,22 +94,25 @@
    <widget class="QLineEdit" name="minValue">
     <property name="geometry">
      <rect>
-      <x>719</x>
+      <x>720</x>
       <y>111</y>
-      <width>110</width>
+      <width>100</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
      <string>150,150,150</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QComboBox" name="segMethod">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>20</y>
-      <width>87</width>
+      <x>720</x>
+      <y>30</y>
+      <width>100</width>
       <height>30</height>
      </rect>
     </property>
@@ -143,7 +149,7 @@
    <widget class="QLabel" name="srtLabel">
     <property name="geometry">
      <rect>
-      <x>629</x>
+      <x>620</x>
       <y>151</y>
       <width>72</width>
       <height>15</height>
@@ -159,14 +165,14 @@
    <widget class="QLabel" name="chgLabel">
     <property name="geometry">
      <rect>
-      <x>620</x>
+      <x>610</x>
       <y>191</y>
       <width>81</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>新字幕阈值</string>
+     <string>切换阈值</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -175,9 +181,9 @@
    <widget class="QLineEdit" name="srtThres">
     <property name="geometry">
      <rect>
-      <x>719</x>
+      <x>720</x>
       <y>151</y>
-      <width>110</width>
+      <width>100</width>
       <height>21</height>
      </rect>
     </property>
@@ -191,9 +197,9 @@
    <widget class="QLineEdit" name="chgThres">
     <property name="geometry">
      <rect>
-      <x>719</x>
+      <x>720</x>
       <y>191</y>
-      <width>110</width>
+      <width>100</width>
       <height>21</height>
      </rect>
     </property>
@@ -220,22 +226,25 @@
    <widget class="QLineEdit" name="maxValue">
     <property name="geometry">
      <rect>
-      <x>719</x>
+      <x>720</x>
       <y>71</y>
-      <width>110</width>
+      <width>100</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
      <string>255,255,255</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QPushButton" name="testButton">
     <property name="geometry">
      <rect>
       <x>720</x>
-      <y>250</y>
-      <width>87</width>
+      <y>230</y>
+      <width>100</width>
       <height>32</height>
      </rect>
     </property>
@@ -246,7 +255,7 @@
    <widget class="QLabel" name="maxLabel">
     <property name="geometry">
      <rect>
-      <x>629</x>
+      <x>620</x>
       <y>71</y>
       <width>72</width>
       <height>20</height>
@@ -262,7 +271,7 @@
    <widget class="QLabel" name="minLabel">
     <property name="geometry">
      <rect>
-      <x>620</x>
+      <x>610</x>
       <y>111</y>
       <width>81</width>
       <height>20</height>
@@ -298,8 +307,8 @@
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>300</y>
+      <x>630</x>
+      <y>280</y>
       <width>321</width>
       <height>23</height>
      </rect>
@@ -311,9 +320,9 @@
    <widget class="QComboBox" name="langBox">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>340</y>
-      <width>87</width>
+      <x>630</x>
+      <y>320</y>
+      <width>75</width>
       <height>30</height>
      </rect>
     </property>
@@ -336,10 +345,10 @@
    <widget class="QPushButton" name="colorButton1">
     <property name="geometry">
      <rect>
-      <x>850</x>
+      <x>840</x>
       <y>70</y>
-      <width>71</width>
-      <height>23</height>
+      <width>100</width>
+      <height>24</height>
      </rect>
     </property>
     <property name="text">
@@ -349,10 +358,10 @@
    <widget class="QPushButton" name="colorButton2">
     <property name="geometry">
      <rect>
-      <x>850</x>
+      <x>840</x>
       <y>110</y>
-      <width>71</width>
-      <height>23</height>
+      <width>100</width>
+      <height>24</height>
      </rect>
     </property>
     <property name="text">
