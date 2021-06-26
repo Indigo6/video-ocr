@@ -89,5 +89,6 @@ frame
 input
 .idea
 .vscode
-test
+test.py
+main.bat
 
