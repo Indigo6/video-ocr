@@ -78,7 +78,7 @@ class MyGraphicsView(QGraphicsView):
             self.my_scene.removeItem(self.old_rect_item)
 
         self.rect.setRect(temp_start[0], temp_start[1], temp_end[0] - temp_start[0], temp_end[1] - temp_start[1])
-        self.old_rect_item = self.my_scene.addRect(self.rect, QPen(Qt.red, 3, Qt.SolidLine))
+        self.old_rect_item = self.my_scene.addRect(self.rect, QPen(Qt.red, 1, Qt.SolidLine))
         self.setScene(self.my_scene)
 
     # 释放鼠标
