@@ -78,6 +78,7 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
             self.videoView.my_scene.addItem(self.videoView.old_rect_item)
         self.videoView.setScene(self.videoView.my_scene)
         self.hasOpen = True
+        self.videoView.setStyleSheet("background:transparent;padding:0px;border:0px")
 
     def video_bar(self):
         """
@@ -161,6 +162,7 @@ class MyWindow(QMainWindow, Ui_VideoOCR):
         self.clipView.my_scene.clear()
         self.clipView.old_img_item = get_image_view(self.clipView.my_scene, self.clipView, frame_seg)
         self.clipView.setScene(self.clipView.my_scene)
+        self.clipView.setStyleSheet("background:transparent;padding:0px;border:0px")
         if has_srt:
             self.isSrt.setText('检测结果: 该帧包含字幕')
         else:
