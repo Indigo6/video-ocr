@@ -9,7 +9,7 @@ import time
 
 import cv2 as cv
 
-from paddleocr import PaddleOCR
+import paddleocr
 from pysubs2 import SSAFile
 from PyQt5.Qt import QPixmap
 from PyQt5.QtWidgets import QGraphicsScene, QMessageBox, QGraphicsView
@@ -24,7 +24,7 @@ class OcrReader:
         if self.method == "easy":
             self.model = easyocr.Reader(lang)
         elif self.method == "paddle":
-            self.model = PaddleOCR(use_angle_cls=False, lang="ch")
+            self.model = paddleocr.PaddleOCR(use_angle_cls=False, lang="ch")
         elif self.method == "online":
             # 百度 API 的 API key 和 Secret key
             self.access_token = get_access_token('baidu_keys.txt')
