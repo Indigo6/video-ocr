@@ -305,6 +305,9 @@
       <height>325</height>
      </size>
     </property>
+    <property name="acceptDrops">
+     <bool>true</bool>
+    </property>
     <property name="verticalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOff</enum>
     </property>
